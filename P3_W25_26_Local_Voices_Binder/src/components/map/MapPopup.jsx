@@ -1,4 +1,5 @@
 import { useTheme } from '@mui/material/styles';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -29,7 +30,7 @@ export default function MapPopup({
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '66.66%' }}>
           <CardContent sx={{ flex: '1 0 auto' }}>
             <Typography component="div" variant="h5">{title}</Typography>
-            <Typography variant="subtitle1" component="div" sx={{ color: 'text.secondary' }}>
+            <Typography variant="subtitle1" component="div" sx={{ color: '#51853C' }}>
               {subtitle}
             </Typography>
           </CardContent>
@@ -38,7 +39,7 @@ export default function MapPopup({
             <Box sx={{ display: 'flex', gap: 2, pl: 1, pt: 1 }}>
               {leftIcons.map((item, index) => (
                 <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                  {item.icon}
+                  {React.cloneElement(item.icon, { sx: { color: '#7194FF' } })}
                   <Typography variant="body2">{item.label}</Typography>
                 </Box>
               ))}
@@ -49,7 +50,7 @@ export default function MapPopup({
             <Box sx={{ display: 'flex', gap: 2, pl: 1, pt: 1 }}>
               {bottomIcons.map((item, index) => (
                 <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                  {item.icon}
+                  {React.cloneElement(item.icon, { sx: { color: '#7194FF' } })}
                   <Typography variant="body2">{item.label}</Typography>
                 </Box>
               ))}

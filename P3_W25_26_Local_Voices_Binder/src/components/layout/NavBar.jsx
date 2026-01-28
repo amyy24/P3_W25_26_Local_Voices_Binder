@@ -5,14 +5,29 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import NavigationIcon from '@mui/icons-material/Navigation';
 import ExploreIcon from '@mui/icons-material/Explore';
 import PersonIcon from '@mui/icons-material/Person';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
 
 export default function SimpleBottomNavigation() {
-  const [value, setValue] = React.useState(0);
+  const location = useLocation();
+  const [value, setValue] = useState(1);
+
+  useEffect(() => {
+    // Pfadabhängig active Icon setzen
+    if (location.pathname === '/map') {
+      setValue(1); // mittleres Icon aktiv
+    } else if (location.pathname === '/meetings') {
+      setValue(0);
+    } else if (location.pathname === '/map') {
+      setValue(2);
+    }
+  }, [location.pathname]);
 
   return (
     <Box sx={{ position: 'fixed',
         width: '100%',
-        bottom: 0,         // Positioniert sie am unteren Rand
+        bottom: 0,         
     left: 0,  
         zIndex: 1000,  }}>
       <BottomNavigation
@@ -21,10 +36,45 @@ export default function SimpleBottomNavigation() {
         onChange={(event, newValue) => {
           setValue(newValue);
         }}
+        sx={{
+          '& .MuiBottomNavigationAction-root.Mui-selected': {
+            color: '#F05323', // aktives Icon + Label
+          },
+          '& .MuiBottomNavigationAction-root': {
+            color: '#000000', // inaktive Farbe optional schwarz
+          },
+        }}
       >
-        <BottomNavigationAction  icon={<NavigationIcon />} />
-        <BottomNavigationAction  icon={<ExploreIcon />} />
-        <BottomNavigationAction  icon={<PersonIcon />} />
+        <BottomNavigationAction  icon={<NavigationIcon />}disableRipple sx={{
+    '&.Mui-selected': {
+      outline: 'none',  // entfernt Fokus-Outline
+      boxShadow: 'none',
+    },
+    '&:focus': {
+      outline: 'none',
+      boxShadow: 'none',
+    },
+  }}/>
+        <BottomNavigationAction  icon={<ExploreIcon />} disableRipple sx={{
+    '&.Mui-selected': {
+      outline: 'none',  // entfernt Fokus-Outline
+      boxShadow: 'none',
+    },
+    '&:focus': {
+      outline: 'none',
+      boxShadow: 'none',
+    },
+  }}/>
+        <BottomNavigationAction  icon={<PersonIcon />} disableRipple sx={{
+    '&.Mui-selected': {
+      outline: 'none',  // entfernt Fokus-Outline
+      boxShadow: 'none',
+    },
+    '&:focus': {
+      outline: 'none',
+      boxShadow: 'none',
+    },
+  }}/>
       </BottomNavigation>
     </Box>
   );

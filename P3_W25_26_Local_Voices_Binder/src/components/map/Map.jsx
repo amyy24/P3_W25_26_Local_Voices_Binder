@@ -118,6 +118,7 @@ function MapView() {
       <MapPopup 
       title="Emma"
   subtitle="Local"
+  subtitleColor={"#51853C"}
   image={local}
   leftIcons={[
     { icon: <ColorLensIcon fontSize="small" />, label: "Kunst" },
@@ -127,6 +128,7 @@ function MapView() {
     { icon: <LocationPinIcon fontSize="small" />, label: "1 km" }
   ]}
   buttonIcon={<ArrowForwardIosIcon />}
+  buttonLink="/profilelocal"
 />
     </Popup>
   )}
@@ -141,6 +143,7 @@ function MapView() {
             <MapPopup 
             title="Liam"
         subtitle="Reisender"
+        subtitleColor={"#F05323"}
         image={reisender}
         leftIcons={[
           { icon: <RestaurantIcon fontSize="small" />, label: "Essen" },
@@ -150,6 +153,7 @@ function MapView() {
           { icon: <LocationPinIcon fontSize="small" />, label: "1 km" }
         ]}
         buttonIcon={<ArrowForwardIosIcon />}
+        buttonLink="/profile"
       />
           </Popup>
         )}

@@ -33,6 +33,7 @@ export function ProfilePage() {
                   },
                 { title: "Über mich", subtitle: "Ich koche sehr gerne und möchte viel über andere Küchen lernen, außerdem bin ich großer Basketball Fan" },
               ]}/>
+              
         </div>
     )
 }

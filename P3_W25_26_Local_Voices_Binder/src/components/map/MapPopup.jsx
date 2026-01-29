@@ -11,11 +11,13 @@ import IconButton from '@mui/material/IconButton';
 
 export default function MapPopup({
     title,             
-    subtitle,           
+    subtitle, 
+    subtitleColor,          
     image,              
     leftIcons = [],     // Array von { icon: <IconComponent />, label: "Text" } für erste Zeile
     bottomIcons = [],   // Array für untere Icon+Text Zeile
-    buttonIcon          // Icon für den Button rechts
+    buttonIcon,    
+    buttonLink      // Icon für den Button rechts
   }) {
     const theme = useTheme();
     const navigate = useNavigate();
@@ -32,7 +34,7 @@ export default function MapPopup({
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '66.66%' }}>
           <CardContent sx={{ flex: '1 0 auto' }}>
             <Typography component="div" variant="h5">{title}</Typography>
-            <Typography variant="subtitle1" component="div" sx={{ color: '#51853C' }}>
+            <Typography variant="subtitle1" component="div" sx={{ color: subtitleColor }}>
               {subtitle}
             </Typography>
           </CardContent>
@@ -64,7 +66,7 @@ export default function MapPopup({
           <Box sx={{ display: 'flex', alignItems: 'center', pr: 1 }}>
             <IconButton aria-label="action"
              size="large"
-             onClick={() => navigate('/profile')}
+             onClick={() => navigate(buttonLink)}
              >
               {buttonIcon}
             </IconButton>

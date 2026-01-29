@@ -76,9 +76,8 @@ export default function BadgeAvatars({
         <Avatar src={mainImage} sx={{ width: 100, height: 100 }} />
       </StyledBadge>
         <Typography variant="h6">{title}</Typography>
-        <Typography variant="body2" sx={{
-    color: subtitle === "Reisender" ? subtitleColor : 'text.primary', // Orange für "Reisender", Schwarz für alles andere
-  }}>
+        <Typography variant="body2" sx={{ color: subtitleColor || 'text.primary' }} // Orange für "Reisender", Schwarz für alles andere
+  >
           {subtitle}
         </Typography>
       </Box>

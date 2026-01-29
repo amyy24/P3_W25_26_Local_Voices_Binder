@@ -3,6 +3,10 @@ import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
+
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -34,7 +38,19 @@ export default function BadgeAvatars({
       // kleines Avatar
 }) {
   return (
-    
+    <>
+    <Box
+      sx={{
+        position: 'fixed',
+        top: 16,
+        right: 16,
+        zIndex: 3000,
+      }}
+    >
+      <IconButton aria-label="close">
+        <CloseIcon />
+      </IconButton>
+    </Box>
     <Box
       sx={{
         position: 'fixed',
@@ -73,9 +89,10 @@ export default function BadgeAvatars({
           {info.subtitle}
         </Typography>
       )}
+
     {info.right && (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, justifyContent: info.right ? 'space-between' : 'flex-start',
-            alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5,
+             justifyContent: 'flex-end' }}>
           {info.right.icon}
           <Typography variant="body2">{info.right.label}</Typography>
         </Box>
@@ -94,9 +111,25 @@ export default function BadgeAvatars({
     </Box>
   ))}
     </Box>
+
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+  <Button
+    variant="contained"
+    sx={{
+      backgroundColor: '#F05323',
+      color: '#FFFFFF',
+      borderRadius: 2,
+      px: 4,
+      textTransform: 'none',
+      fontWeight: 500,
+    }}
+  >
+    mich treffen
+  </Button>
+</Box>
 </Box>
     
     
-
+</>
   );
 }

@@ -19,7 +19,7 @@ function App() {
         <Route path="/" element={<StartPage />} />
         <Route path="/map" element={<MapPage />} />
         <Route path="/route" element={<RouteMapPage />} />
-        <Route path="/profile/:id" element={<ProfilePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
          <Route path="/meetings" element={<MeetingPage />} /> 
       </Routes>
     </Layout>

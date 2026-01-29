@@ -1,4 +1,5 @@
 import { useTheme } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -17,6 +18,7 @@ export default function MapPopup({
     buttonIcon          // Icon für den Button rechts
   }) {
     const theme = useTheme();
+    const navigate = useNavigate();
   
     return (
       <Card sx={{ display: 'flex', width: 350 }}>
@@ -60,7 +62,10 @@ export default function MapPopup({
   
         {buttonIcon && (
           <Box sx={{ display: 'flex', alignItems: 'center', pr: 1 }}>
-            <IconButton aria-label="action" size="large">
+            <IconButton aria-label="action"
+             size="large"
+             onClick={() => navigate('/profile')}
+             >
               {buttonIcon}
             </IconButton>
           </Box>

@@ -1,9 +1,9 @@
 import BadgeAvatars from "../components/profiles/LocalProfile";
 import reisender from '../assets/reisender.jpg';
 import Verification from '../assets/verification.png';
-import ColorLensIcon from '@mui/icons-material/ColorLens';
-import MuseumIcon from '@mui/icons-material/Museum';
-import PersonIcon from '@mui/icons-material/Person';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
+import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import LocationPinIcon from '@mui/icons-material/LocationPin';
 
 export function ProfilePage() {
@@ -13,24 +13,25 @@ export function ProfilePage() {
             mainImage={reisender}
             badgeImage={Verification}
             title="Liam"
-            subtitle="Reisender" color="#51853C"
+            subtitle="Reisender" 
+            subtitleColor="#F05323"
             infos={[
                 { title: "Lebe in", subtitle: "Madrid, Spanien", right: { icon: <LocationPinIcon />, label: "1km" } },
                 { title: "Spreche", subtitle: "Englisch, Spanisch" },
                 {
                     title: "offen für",
                     icons: [
-                      { icon: <PersonIcon />},
+                      { icon: <PeopleAltIcon />},
                     ],
                   },
                 {
                     title: "Thema",
                     icons: [
-                      { icon: <ColorLensIcon />, label: "Kunst" },
-                      { icon: <MuseumIcon />, label: "Kultur" },
+                      { icon: <RestaurantIcon />, label: "Essen" },
+                      { icon: <SportsBasketballIcon/>, label: "Sport" },
                     ],
                   },
-                { title: "Über mich", subtitle: "Ich gehe gerne in Museen und kann viel über die lokalen Künstler aus meiner Stadt erzählen" },
+                { title: "Über mich", subtitle: "Ich koche sehr gerne und möchte viel über andere Küchen lernen, außerdem bin ich großer Basketball Fan" },
               ]}/>
         </div>
     )

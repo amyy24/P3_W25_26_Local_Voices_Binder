@@ -9,6 +9,7 @@ import {MapPage} from "./pages/MapPage";
 import {RouteMapPage} from "./pages/RouteMapPage";
 import {ProfilePage} from "./pages/ProfilePage";
 import {MeetingPage} from "./pages/MeetingPage";
+import {ProfilePageLocal} from "./pages/ProfilePageLocal";
 
 
 function App() {
@@ -20,7 +21,8 @@ function App() {
         <Route path="/map" element={<MapPage />} />
         <Route path="/route" element={<RouteMapPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-         <Route path="/meetings" element={<MeetingPage />} /> 
+        <Route path="/profilelocal" element={<ProfilePageLocal />} />
+        <Route path="/meetings" element={<MeetingPage />} /> 
       </Routes>
     </Layout>
     

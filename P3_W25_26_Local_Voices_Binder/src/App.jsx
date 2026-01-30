@@ -22,7 +22,7 @@ function App() {
         <Route path="/route" element={<RouteMapPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/profilelocal" element={<ProfilePageLocal />} />
-        <Route path="/meetings" element={<MeetingPage />} /> 
+        <Route path="/meeting" element={<MeetingPage />} /> 
       </Routes>
     </Layout>
     

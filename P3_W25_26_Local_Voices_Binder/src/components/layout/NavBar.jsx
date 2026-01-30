@@ -37,6 +37,7 @@ export default function SimpleBottomNavigation() {
           setValue(newValue);
         }}
         sx={{
+          backgroundColor: '#EDEDEB',
           '& .MuiBottomNavigationAction-root.Mui-selected': {
             color: '#F05323', // aktives Icon + Label
           },

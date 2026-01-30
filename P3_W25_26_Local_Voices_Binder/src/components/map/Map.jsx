@@ -88,78 +88,79 @@ function MapView() {
         attribution="&copy; OpenStreetMap contributors"
       />
       <Marker
-  position={[51.508940, -0.128299]}
-  icon={activeMarker === 'place' ? blackIconBig : blackIcon}
-  eventHandlers={{
-    click: () => setActiveMarker('place'),
-  }}
->
-  {activeMarker === 'place' && (
-    <Popup maxWidth={400}autoPan>
-      <MapPopupPlace 
-      title="National Gallery"
-  subtitle="Die Nationalgalerie ist ein Kunstmuseum in London mit ca 2300 Werken."
-  image={place}
-  buttonText={"Austausch suchen"}
-/>
-    </Popup>
-  )}
-</Marker>
+        position={[51.508940, -0.128299]}
+        icon={activeMarker === 'place' ? blackIconBig : blackIcon}
+        eventHandlers={{
+          click: () => setActiveMarker('place'),
+        }}
+      >
+        {activeMarker === 'place' && (
+          <Popup maxWidth={400} autoPan>
+            <MapPopupPlace
+              title="National Gallery"
+              subtitle="Die Nationalgalerie ist ein Kunstmuseum in London mit ca 2300 Werken."
+              image={place}
+              buttonText={"Austausch suchen"}
+            />
+          </Popup>
+        )}
+      </Marker>
 
- <Marker
+      <Marker
         position={[51.5101335, -0.1312039]}
         icon={activeMarker === 'local' ? greenIconBig : greenIcon}
         eventHandlers={{
           click: () => setActiveMarker('local'),
         }}
-        >
-          {activeMarker === 'local' && (
-    <Popup maxWidth={400}autoPan>
-      <MapPopup 
-      title="Emma"
-  subtitle="Local"
-  subtitleColor={"#51853C"}
-  image={local}
-  leftIcons={[
-    { icon: <ColorLensIcon fontSize="small" />, label: "Kunst" },
-    { icon: <MuseumIcon fontSize="small" />, label: "Kultur" }
-  ]}
-  bottomIcons={[
-    { icon: <LocationPinIcon fontSize="small" />, label: "1 km" }
-  ]}
-  buttonIcon={<ArrowForwardIosIcon />}
-  buttonLink="/profilelocal"
-/>
-    </Popup>
-  )}
-  </Marker>
+      >
+        {activeMarker === 'local' && (
+          <Popup maxWidth={400} autoPan>
+            <MapPopup
+              title="Emma"
+              subtitle="Local"
+              subtitleColor={"#51853C"}
+              image={local}
+              leftIcons={[
+                { icon: <ColorLensIcon fontSize="small" />, label: "Kunst" },
+                { icon: <MuseumIcon fontSize="small" />, label: "Kultur" }
+              ]}
+              bottomIcons={[
+                { icon: <LocationPinIcon fontSize="small" />, label: "1 km" }
+              ]}
+              buttonIcon={<ArrowForwardIosIcon />}
+              buttonLink="/profilelocal"
+            />
+          </Popup>
+        )}
+      </Marker>
 
-  <Marker position={[51.5092118, -0.1324673]} icon={activeMarker === 'reisender' ? orangeIconBig : orangeIcon}
+      <Marker position={[51.5092118, -0.1324673]} icon={activeMarker === 'reisender' ? orangeIconBig : orangeIcon}
         eventHandlers={{
           click: () => setActiveMarker('reisender'),
         }}>
         {activeMarker === 'reisender' && (
-          <Popup maxWidth={400}autoPan>
-            <MapPopup 
-            title="Liam"
-        subtitle="Reisender"
-        subtitleColor={"#F05323"}
-        image={reisender}
-        leftIcons={[
-          { icon: <RestaurantIcon fontSize="small" />, label: "Essen" },
-          { icon: <SportsBasketballIcon fontSize="small" />, label: "Sport" }
-        ]}
-        bottomIcons={[
-          { icon: <LocationPinIcon fontSize="small" />, label: "1 km" }
-        ]}
-        buttonIcon={<ArrowForwardIosIcon />}
-        buttonLink="/profile"
-      />
+          <Popup maxWidth={400} autoPan>
+            <MapPopup
+              key="reisender-popup"
+              title="Liam"
+              subtitle="Reisender"
+              subtitleColor={"#F05323"}
+              image={reisender}
+              leftIcons={[
+                { icon: <RestaurantIcon fontSize="small" />, label: "Essen" },
+                { icon: <SportsBasketballIcon fontSize="small" />, label: "Sport" }
+              ]}
+              bottomIcons={[
+                { icon: <LocationPinIcon fontSize="small" />, label: "1 km" }
+              ]}
+              buttonIcon={<ArrowForwardIosIcon />}
+              buttonLink="/profile"
+            />
           </Popup>
         )}
       </Marker>
       <Marker position={[51.5072579, -0.1309334]} icon={blueIcon}>
-  </Marker>
+      </Marker>
     </MapContainer>
   );
 }

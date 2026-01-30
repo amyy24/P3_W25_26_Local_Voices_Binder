@@ -155,6 +155,7 @@ export default function BadgeAvatars({
       textTransform: 'none',
       fontWeight: 500,
     }}
+    onClick={() => navigate('/meeting')}
   >
     mich treffen
   </Button>

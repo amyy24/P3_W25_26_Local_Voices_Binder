@@ -6,7 +6,7 @@ import MePin from '../../assets/MePin.png';
 import PlacePin from '../../assets/PlacePin.png';
 import ReisenderPin from '../../assets/ReisenderPin.png';
 import { useEffect } from 'react';
-
+import 'leaflet-polylinedecorator';
 // Marker Icons
 const greenIcon = new L.Icon({ iconUrl: LocalPin, iconSize: [57,70], iconAnchor:[20,40] });
 const blueIcon = new L.Icon({ iconUrl: MePin, iconSize: [57,90], iconAnchor:[20,40] });
@@ -45,29 +45,91 @@ function Routing({ start, end }) {
     useEffect(() => {
       if (!map) return;
   
-      const control = L.Routing.control({
-        waypoints: [
-          L.latLng(start[0], start[1]),
-          L.latLng(end[0], end[1])
-        ],
-        lineOptions: {
-          styles: [{ color: '#F05323', weight: 4 }]
-        },
-        addWaypoints: false,
-        routeWhileDragging: false,
-        draggableWaypoints: false,
-        createMarker: () => null,
-        container: null,
-        formatter: new L.Routing.Formatter({
-            formatDistance: () => '',      // keine Entfernung anzeigen
-            formatInstruction: () => '',   // keine Schrittanweisungen
-            formatTime: () => ''           // keine Zeit anzeigen
-          })
-         // keine Marker doppelt
-      }).addTo(map);
-  
-      return () => map.removeControl(control); // sauber aufräumen
-    }, [map, start, end]);
+      const removeOld = () => {
+        if (map._routeLayer) {
+        map.removeLayer(map._routeLayer);
+        map._routeLayer = null;
+        }
+        };
+        removeOld();
+        
+       // OSRM-Request: beachte Reihenfolge lon,lat in der URL
+        const url = `https://router.project-osrm.org/route/v1/driving/${start[1]},${start[0]};${end[1]},${end[0]}?overview=full&geometries=geojson`;
+        
+        let aborted = false;
+        fetch(url)
+        .then((res) => {
+        if (!res.ok) throw new Error('Routing service error');
+        return res.json();
+        })
+        .then((data) => {
+        if (aborted) return;
+        if (!data.routes || data.routes.length === 0) return;
+        
+        const geometry = data.routes[0].geometry; // GeoJSON LineString
+        const layer = L.geoJSON(geometry, {
+        style: { color: 'black', weight: 4 },
+        }).addTo(map);
+
+        const iconHtml = renderToStaticMarkup(
+            <div style={{
+              width: 34,
+              height: 34,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transform: 'translate(24px, -8px)' // <-- passe hier X/Y pixel an
+            }}>
+              <LiveHelpIcon style={{ color: '#000', fontSize: 28 }} />
+            </div>
+          );
+          
+          const muiDivIcon = L.divIcon({
+            html: iconHtml,
+            className: '',         // optional: eigene CSS-Klasse
+            iconSize: [34, 34],
+            iconAnchor: [17, 17],  // zentriert das divIcon auf seine Position
+          });
+          const arrow = L.Symbol.arrowHead({
+                    pixelSize: 80,
+                    polygon: true, // true = gefüllter Pfeil
+                    headAngle: 45,
+                    pathOptions: { fillOpacity: 1, color: '#000000', weight: 0 }
+                  });
+          
+                  // Decorator anlegen: offset '100%' setzt das Symbol ans Linienende
+                  const decorator = L.polylineDecorator(line, {
+                    patterns: [
+                      {
+                        offset: '50%', // am Ende
+                        repeat: 0,      // kein Repeat
+                        symbol: arrow
+                      }
+                    ]
+                  }).addTo(map);
+          
+                  map._routeDecorator = decorator;
+          
+        
+        // Referenz zum späteren Entfernen speichern
+        map._routeLayer = layer;
+        
+        // Karte auf Route zoomen (optional)
+        if (layer.getBounds && !layer.getBounds().isEmpty()) {
+        map.fitBounds(layer.getBounds(), { padding: [50, 50] });
+        }
+        })
+        .catch((err) => {
+       // optional: Fehlerbehandlung (z.B. Console-Log)
+        // console.error('Route fetch error', err);
+        });
+        
+        return () => {
+        aborted = true;
+        removeOld();
+        };
+        }, [map, start, end]);
+   
   
     return null;
   }

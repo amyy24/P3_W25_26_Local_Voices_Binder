@@ -21,7 +21,7 @@ export default function MeetingInfoRow({ icon, title, subtitle, buttonRight }) {
             {title}
           </Typography>
           {subtitle && (
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="#000000">
               {subtitle}
             </Typography>
           )}

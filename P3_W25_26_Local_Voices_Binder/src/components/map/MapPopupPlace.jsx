@@ -6,6 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function MapPopupPlace({
   title,
@@ -13,20 +14,35 @@ export default function MapPopupPlace({
   image,
   buttonText,
   onButtonClick, 
+  onClose
 }) {
   const theme = useTheme();
   const [clicked, setClicked] = useState(false); // Zustand für Button-Farbe
 
   const handleButtonClick = () => {
-    setClicked(true);          // 🔥 Button wird schwarz
+    setClicked(true);          //  Button wird schwarz
     if (onButtonClick) {
-      onButtonClick();         // 🔥 MePin Icon aktivieren
+      onButtonClick();         //  MePin Icon aktivieren
     }
   };
   
   return (
-    <Card sx={{ display: 'flex', width: 350 }}>
-      
+    <Card sx={{ display: 'flex', width: 349, height:130 }}>
+      {onClose && (
+        <IconButton
+          size="small"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            top: 4,
+            right: 25,
+            color: '#888', 
+            zIndex: 10,
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      )}
       {/* Bild oben */}
       {image && (
         <CardMedia

@@ -1,16 +1,42 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import { BrowserRouter } from "react-router-dom";
-import React from "react";
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App.jsx';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
+import './index.css';
 
+// Fonts
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
 
+const theme = createTheme({
+  typography: {
+    fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+    h1: { fontFamily: 'Inter' },
+    h2: { fontFamily: 'Inter' },
+    h3: { fontFamily: 'Inter' },
+    h4: { fontFamily: 'Inter' },
+    h5: { fontFamily: 'Inter' },
+    h6: { fontFamily: 'Inter' },
+    subtitle1: { fontFamily: 'Inter' },
+    subtitle2: { fontFamily: 'Inter' },
+    body1: { fontFamily: 'Inter' },
+    body2: { fontFamily: 'Inter' },
+    button: { fontFamily: 'Inter' },
+    caption: { fontFamily: 'Inter' },
+    overline: { fontFamily: 'Inter' },
+  },
+});
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ThemeProvider>
   </StrictMode>
-)
+);

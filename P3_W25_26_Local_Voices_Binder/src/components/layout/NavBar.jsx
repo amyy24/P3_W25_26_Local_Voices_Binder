@@ -6,18 +6,20 @@ import NavigationIcon from '@mui/icons-material/Navigation';
 import ExploreIcon from '@mui/icons-material/Explore';
 import PersonIcon from '@mui/icons-material/Person';
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 
 
 export default function SimpleBottomNavigation() {
   const location = useLocation();
   const [value, setValue] = useState(1);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Pfadabhängig active Icon setzen
     if (location.pathname === '/map') {
       setValue(1); // mittleres Icon aktiv
-    } else if (location.pathname === '/route') {
+    } else if (location.pathname === '/route', '/meeting') {
       setValue(0);
     } else if (location.pathname === '/map') {
       setValue(2);
@@ -35,6 +37,9 @@ export default function SimpleBottomNavigation() {
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
+          if (newValue === 0) navigate('/route');       // Navigation Icon
+          else if (newValue === 1) navigate('/map');    // Explorer Icon
+          else if (newValue === 2) navigate('/map');
         }}
         sx={{
           backgroundColor: '#EDEDEB',

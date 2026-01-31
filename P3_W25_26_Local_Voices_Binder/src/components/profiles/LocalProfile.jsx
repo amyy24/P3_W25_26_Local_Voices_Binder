@@ -7,7 +7,8 @@ import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
-
+import React, { useState } from 'react';
+import ConfirmRedirect from './ConfirmRedirect';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -30,6 +31,8 @@ const SmallAvatar = styled(Avatar)(({ theme }) => ({
   border: `2px solid ${theme.palette.background.paper}`,
 }));
 
+
+
 export default function BadgeAvatars({
   mainImage,      // großes Avatar
   badgeImage,
@@ -40,7 +43,11 @@ export default function BadgeAvatars({
       // kleines Avatar
 }) {
   const navigate = useNavigate();
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
+  const handleMeetClick = () => {
+    setConfirmOpen(true);
+  };
   return (
     <>
     <Box
@@ -56,12 +63,20 @@ export default function BadgeAvatars({
       </IconButton>
     </Box>
     <Box
-      sx={{
+       sx={{
         position: 'fixed',
-        top: 16,
-        left: '50%',
-        transform: 'translateX(-50%)',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100vh',           // volle Höhe des Screens
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',  // vertikal zentrieren
+        alignItems: 'center',      // horizontal zentrieren
+        px: 2,
+        pt: { xs: 6, sm: 8 },
         zIndex: 2000,
+        boxSizing: 'border-box',
       }}
     >
         
@@ -75,7 +90,10 @@ export default function BadgeAvatars({
       >
         <Avatar src={mainImage} sx={{ width: 100, height: 100 }} />
       </StyledBadge>
-        <Typography variant="h6">{title}</Typography>
+        <Typography variant="h6" sx={{
+        mt: 2,                     // Abstand über Titel
+        mb: 1,                     // Abstand unter Titel
+      }}>{title}</Typography>
         <Typography variant="body2" sx={{ color: subtitleColor || 'text.primary' }} // Orange für "Reisender", Schwarz für alles andere
   >
           {subtitle}
@@ -112,7 +130,7 @@ export default function BadgeAvatars({
         </Box>
       )}
       {info.subtitle && (
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="#000000">
           {info.subtitle}
         </Typography>
       )}
@@ -155,11 +173,19 @@ export default function BadgeAvatars({
       textTransform: 'none',
       fontWeight: 500,
     }}
-    onClick={() => navigate('/meeting')}
+    onClick={handleMeetClick}
   >
     mich treffen
   </Button>
 </Box>
+
+<ConfirmRedirect
+  open={confirmOpen}
+  onClose={() => setConfirmOpen(false)}
+  to="/meeting"
+  message="Treffen wird vorbereitet"
+  duration={3000}
+/>
 </Box>
     
     

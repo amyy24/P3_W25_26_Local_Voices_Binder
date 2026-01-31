@@ -16,6 +16,10 @@ import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
 import reisender from '../../assets/reisender.jpg';
 import MapPopupPlace from './MapPopupPlace';
 import place from '../../assets/place.jpg';
+import AnnouncementIcon from '@mui/icons-material/Announcement';
+import { renderToString } from 'react-dom/server';
+import LiveHelpIcon from '@mui/icons-material/LiveHelp';
+
 
 const greenIcon = new L.Icon({
   iconUrl: LocalPin,
@@ -64,10 +68,31 @@ const blueIcon = new L.Icon({
   popupAnchor: [0, -40],
 });
 
+const announcementIcon = L.divIcon({
+  html: renderToString(
+    <AnnouncementIcon style={{ color: '#000000', fontSize: 28 }} />
+  ),
+  className: '',
+  iconSize: [30, 30],
+  iconAnchor: [-25, 50], // leicht neben den Pin setzen
+});
+
+const liveHelpIcon = L.divIcon({
+  html: renderToString(
+    <LiveHelpIcon style={{ color: '#000000', fontSize: 28 }} />
+  ),
+  className: '',
+  iconSize: [30, 30],
+  iconAnchor: [-20, 50], // leicht neben den MePin
+});
 
 
 function MapView() {
   const [activeMarker, setActiveMarker] = useState(null);
+const [showAnnouncementOnLocal, setShowAnnouncementOnLocal] = useState(false);
+const [showLiveHelpOnMe, setShowLiveHelpOnMe] = useState(false);
+
+
   useEffect(() => {
     if (activeMarker === 'place') {
       // optional: hier icon wechseln
@@ -91,7 +116,10 @@ function MapView() {
         position={[51.508940, -0.128299]}
         icon={activeMarker === 'place' ? blackIconBig : blackIcon}
         eventHandlers={{
-          click: () => setActiveMarker('place'),
+          click: () => {
+            setActiveMarker('place');
+            setShowAnnouncementOnLocal(true); // 👈 Announcement AKTIVIEREN
+          },
         }}
       >
         {activeMarker === 'place' && (
@@ -101,6 +129,7 @@ function MapView() {
               subtitle="Die Nationalgalerie ist ein Kunstmuseum in London mit ca 2300 Werken."
               image={place}
               buttonText={"Austausch suchen"}
+              onButtonClick={() => setShowLiveHelpOnMe(true)}
             />
           </Popup>
         )}
@@ -110,9 +139,21 @@ function MapView() {
         position={[51.5101335, -0.1312039]}
         icon={activeMarker === 'local' ? greenIconBig : greenIcon}
         eventHandlers={{
-          click: () => setActiveMarker('local'),
+          click: () => {
+            setActiveMarker('local');
+            setShowAnnouncementOnLocal(false); // Announcement wieder aus
+          },
         }}
+        
       >
+        {showAnnouncementOnLocal && (
+  <Marker
+    position={[51.5101335, -0.1312039]} // gleiche Position wie grüner Marker
+    icon={announcementIcon}
+    interactive={false}
+  />
+)}
+       
         {activeMarker === 'local' && (
           <Popup maxWidth={400} autoPan>
             <MapPopup
@@ -160,6 +201,13 @@ function MapView() {
         )}
       </Marker>
       <Marker position={[51.5072579, -0.1309334]} icon={blueIcon}>
+      {showLiveHelpOnMe && (
+    <Marker
+      position={[51.5072579, -0.1309334]}
+      icon={liveHelpIcon}
+      interactive={false}
+    />
+  )}
       </Marker>
     </MapContainer>
   );

@@ -25,8 +25,7 @@ export function MeetingPage() {
       }}
     >
       {/* Überschrift */}
-      <Typography variant="h5">Meeting Point</Typography>
-
+      <h2>you're meeting</h2>;
       {/* Bild */}
       <Box sx={{ mt: 2 }}>
         <img

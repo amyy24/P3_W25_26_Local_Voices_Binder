@@ -7,18 +7,23 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 
-export default function MapPopup({
+export default function MapPopupPlace({
   title,
   subtitle,
   image,
-  buttonText, 
+  buttonText,
+  onButtonClick, 
 }) {
   const theme = useTheme();
   const [clicked, setClicked] = useState(false); // Zustand für Button-Farbe
 
   const handleButtonClick = () => {
-    setClicked(!clicked); // Toggle
+    setClicked(true);          // 🔥 Button wird schwarz
+    if (onButtonClick) {
+      onButtonClick();         // 🔥 MePin Icon aktivieren
+    }
   };
+  
   return (
     <Card sx={{ display: 'flex', width: 350 }}>
       
@@ -52,12 +57,14 @@ export default function MapPopup({
             <Button
   onClick={handleButtonClick}
   sx={{
-    backgroundColor: clicked ? '#000000' : '#EDEDEB', 
-    color: clicked ? '#FFFFFF' : '#000000',           
+    backgroundColor: clicked ? '#000000' : '#EDEDEB',
+    color: clicked ? '#FFFFFF' : '#000000',
+    textTransform: 'none',
   }}
 >
   {buttonText}
 </Button>
+
 
           </Box>
         )}

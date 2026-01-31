@@ -17,7 +17,7 @@ export default function SimpleBottomNavigation() {
     // Pfadabhängig active Icon setzen
     if (location.pathname === '/map') {
       setValue(1); // mittleres Icon aktiv
-    } else if (location.pathname === '/meetings') {
+    } else if (location.pathname === '/route') {
       setValue(0);
     } else if (location.pathname === '/map') {
       setValue(2);

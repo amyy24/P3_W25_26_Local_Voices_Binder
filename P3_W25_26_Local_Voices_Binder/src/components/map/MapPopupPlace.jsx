@@ -1,7 +1,6 @@
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -34,6 +33,7 @@ export default function MapPopupPlace({
     <Card sx={{ display: 'flex', width: 349, height:130, borderRadius:5, position: 'relative', // wichtig für absolute Kinder
       overflow: 'visible' }}>
       {onClose && (
+
   <IconButton
     aria-label="close"
     size="small"
@@ -69,9 +69,9 @@ export default function MapPopupPlace({
       {title}
     </Typography>
     {subtitle && (
-      <Typography variant="body3" color="text.secondary">
-        {subtitle}
-      </Typography>
+    <Typography variant="body3" color="text.secondary">
+    {subtitle}
+    </Typography>
     )}
   </Box>
 

@@ -19,6 +19,8 @@ const orangeIcon = new L.Icon({ iconUrl: ReisenderPin, iconSize: [57,70], iconAn
 function RouteMap() {
   const mePos = [51.5072579, -0.1309334]; // MePin
   const localPos = [51.5101335, -0.1312039]; // LocalPin
+  const travelerPos = [51.5092118, -0.1324673]; // ReisenderPin
+  const placePos = [51.50894, -0.128299]; // PlacePin
 
   return (
     <MapContainer center={mePos} zoom={16} style={{ height: '100vh', width: '100vw' }}>
@@ -30,6 +32,8 @@ function RouteMap() {
       {/* Marker */}
       <Marker position={mePos} icon={blueIcon} />
       <Marker position={localPos} icon={greenIcon} />
+      <Marker position={travelerPos} icon={orangeIcon} />
+      <Marker position={placePos} icon={blackIcon} /> 
 
       {/* MUI Icon neben MePin */}
       <WalkIconMarker position={[51.5074200, -0.1306000]} />

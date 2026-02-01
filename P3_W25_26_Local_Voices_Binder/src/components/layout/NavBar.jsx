@@ -29,8 +29,9 @@ export default function SimpleBottomNavigation() {
     <Box sx={{ position: 'fixed',
         width: '100%',
         bottom: 0,         
-    left: 0,  
+        left: 0,  
         zIndex: 1000,  }}>
+
       <BottomNavigation
         showLabels
         value={value}
@@ -51,36 +52,39 @@ export default function SimpleBottomNavigation() {
         }}
       >
         <BottomNavigationAction  icon={<NavigationIcon />}disableRipple sx={{
-    '&.Mui-selected': {
-      outline: 'none',  // entfernt Fokus-Outline
-      boxShadow: 'none',
-    },
-    '&:focus': {
-      outline: 'none',
-      boxShadow: 'none',
-    },
-  }}/>
+        '&.Mui-selected': {
+        outline: 'none',  // entfernt Fokus-Outline
+        boxShadow: 'none',
+        },
+        '&:focus': {
+        outline: 'none',
+        boxShadow: 'none',
+        },
+       }}/>
+
         <BottomNavigationAction  icon={<ExploreIcon />} disableRipple sx={{
-    '&.Mui-selected': {
-      outline: 'none',  // entfernt Fokus-Outline
-      boxShadow: 'none',
-    },
-    '&:focus': {
-      outline: 'none',
-      boxShadow: 'none',
-    },
-  }}/>
+        '&.Mui-selected': {
+        outline: 'none',  // entfernt Fokus-Outline
+        boxShadow: 'none',
+         },
+        '&:focus': {
+        outline: 'none',
+        boxShadow: 'none',
+        },
+        }}/>
+        
         <BottomNavigationAction  icon={<PersonIcon />} disableRipple sx={{
-    '&.Mui-selected': {
-      outline: 'none',  // entfernt Fokus-Outline
-      boxShadow: 'none',
-    },
-    '&:focus': {
-      outline: 'none',
-      boxShadow: 'none',
-    },
-  }}/>
+        '&.Mui-selected': {
+        outline: 'none',  // entfernt Fokus-Outline
+        boxShadow: 'none',
+        },
+        '&:focus': {
+        outline: 'none',
+        boxShadow: 'none',
+        },
+        }}/>
       </BottomNavigation>
+      
     </Box>
   );
 }

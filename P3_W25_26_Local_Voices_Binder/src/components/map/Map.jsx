@@ -59,8 +59,6 @@ export default function MapView() {
   const [showAnnouncementOnLocal, setShowAnnouncementOnLocal] = useState(false);
   const [showLiveHelpOnMe, setShowLiveHelpOnMe] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  // statt: const [viewFilter, setViewFilter] = useState('alle');
-// und:  const [categoryFilter, setCategoryFilter] = useState('');
 const [viewFilterState, setViewFilterState] = useState('alle');
 const [categoryFilterState, setCategoryFilterState] = useState('');
 
@@ -123,8 +121,7 @@ const filteredPersons = personsData.persons.filter((person) => {
 });
 
 console.log('[MapView] filtered persons:', filteredPersons.map(p => ({ name: p.name, type: p.type, categories: p.categories })));
-  
-  return (
+return (
     <>
       <MapContainer
         center={[51.508, -0.13]}
@@ -141,17 +138,19 @@ console.log('[MapView] filtered persons:', filteredPersons.map(p => ({ name: p.n
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="&copy; OpenStreetMap contributors"
         />
-<FilterPopupDown
-  open={isFilterOpen}
-  onClose={() => setIsFilterOpen(false)}
-  setViewFilter={setViewFilter}           // ⚡ hier weitergeben
-  setCategoryFilter={setCategoryFilter}   // ⚡ hier weitergeben
-/>
-{filteredPersons.map((person) => {
-    let icon;
-    if (person.icon === 'green') icon = greenIcon;
-    if (person.icon === 'orange') icon = orangeIcon;
-    if (person.icon === 'black') icon = blackIcon;
+
+      <FilterPopupDown
+        open={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+        setViewFilter={setViewFilter}           // ⚡ hier weitergeben
+        setCategoryFilter={setCategoryFilter}   // ⚡ hier weitergeben
+      />
+
+    {filteredPersons.map((person) => {
+        let icon;
+        if (person.icon === 'green') icon = greenIcon;
+        if (person.icon === 'orange') icon = orangeIcon;
+        if (person.icon === 'black') icon = blackIcon;
 
     return (
       <Marker

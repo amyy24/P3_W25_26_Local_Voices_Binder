@@ -29,13 +29,13 @@ const SmallAvatar = styled(Avatar)(({ theme }) => ({
 }));
 
 export default function BadgeAvatars({
-  mainImage,      // großes Avatar
+  mainImage,      
   badgeImage,
   title,
   subtitle,
   subtitleColor,
   infos,
-  // kleines Avatar
+  
 }) {
   const navigate = useNavigate();
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -139,6 +139,7 @@ export default function BadgeAvatars({
                     <Typography variant="body1" fontWeight="bold"sx={{ fontSize: '1.rem', fontWeight: 600 }}>
                       {info.title}
                     </Typography>
+
                     {info.right && (
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                         {info.right.icon}
@@ -149,6 +150,7 @@ export default function BadgeAvatars({
                     )}
                   </Box>
                 )}
+                
                 {info.subtitle && (
                   <Typography variant="body2" color="#000000" sx={{ fontSize: { xs: '0.95rem', sm: '1rem' } }}>
                     {info.subtitle}

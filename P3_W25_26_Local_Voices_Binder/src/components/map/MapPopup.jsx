@@ -21,6 +21,7 @@ export default function MapPopup({
     buttonLink,
     onClose       // Icon für den Button rechts
   }) {
+
     const theme = useTheme();
     const navigate = useNavigate();
   
@@ -32,6 +33,7 @@ export default function MapPopup({
         borderRadius: 5,
         position: 'relative' }}>
         {onClose && (
+          
   <IconButton
     aria-label="close"
     size="small"

@@ -31,7 +31,6 @@ function FilterSection({ title, options, selectedOption, onSelect, isCategory = 
               textTransform: 'none',
               bgcolor: selectedOption === option ? 'black' : 'white',
               color: selectedOption === option ? 'white' : 'black',
-              border: '1px solid black',
               '&:hover': {
                 bgcolor: selectedOption === option ? 'black' : '#f0f0f0',
               },

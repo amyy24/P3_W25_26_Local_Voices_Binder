@@ -2,16 +2,14 @@ import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Box from '@mui/material/Box';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 export default function ConfirmRedirectDialog({
   open,
   onClose,
   to = '/meeting',
-  message = 'Treffen wird vorbereitet',
-  duration = 1000,
+  duration = 100,
 }) {
   const navigate = useNavigate();
 
@@ -33,7 +31,7 @@ export default function ConfirmRedirectDialog({
       sx={{
         zIndex: 10000,   // höher als Leaflet
       }}
-      container={() => document.body}  // 🔥 WICHTIG
+      container={() => document.body}  
       BackdropProps={{
         sx: {
           backgroundColor: 'rgba(0,0,0,0.85)',
@@ -67,7 +65,7 @@ export default function ConfirmRedirectDialog({
             boxShadow: 3, // optional für 3D-Effekt
           }}
         >
-          <CheckCircleIcon sx={{ fontSize: 120, color: '#2e7d32' }} />
+          <TaskAltIcon sx={{ fontSize: 120, color: '#51853C' }} />
         </Box>
       </DialogContent>
     </Dialog>

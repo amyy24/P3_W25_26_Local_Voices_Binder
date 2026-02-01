@@ -72,7 +72,7 @@ export function MyProfilePage() {
         <Typography variant="h4" sx={{ mt: 1, fontSize: { xs: '1.8rem', sm: '2rem' }, fontWeight: 700 }}>
           Mia
         </Typography>
-        <Typography variant="body2" sx={{ fontSize: { xs: '1.05rem', sm: '1rem' }, mt: 0.5, fontWeight: 600, color: '#51853C' }}>
+        <Typography variant="body2" sx={{ fontSize: { xs: '1.05rem', sm: '1rem' }, mt: 0, fontWeight: 600, color: '#F05323' }}>
           Reisende
         </Typography>
 

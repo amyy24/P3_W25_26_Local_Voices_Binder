@@ -17,6 +17,7 @@ export default function MapPopupPlace({
   buttonText,
   onButtonClick, 
   onClose
+
 }) {
   const theme = useTheme();
   const [clicked, setClicked] = useState(false); // Zustand für Button-Farbe
@@ -33,20 +34,21 @@ export default function MapPopupPlace({
     <Card sx={{ display: 'flex', width: 349, height:130, borderRadius:5, position: 'relative', // wichtig für absolute Kinder
       overflow: 'visible' }}>
       {onClose && (
-        <IconButton aria-label="close" onClick={() => navigate('/map')}
-          size="small"
-          onClose={() => setActiveMarker(null)}
-          sx={{
-            position: 'absolute',
-            top: 4,
-            right: 4,
-            color: '#888', 
-            zIndex: 10,
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      )}
+  <IconButton
+    aria-label="close"
+    size="small"
+    onClick={onClose}
+    sx={{
+      position: 'absolute',
+      top: 6,
+      right: 6,
+      color: '#888',
+      zIndex: 10,
+    }}
+  >
+    <CloseIcon />
+  </IconButton>
+)}
 
       {/* Bild oben */}
       {image && (
@@ -60,37 +62,36 @@ export default function MapPopupPlace({
       )}
 
       {/* Überschrift + Text */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: '66.66%', p: 1, justifyContent: 'space-between' }}>
-        {/* Text oben */}
-        <Box>
-          <Typography component="div" variant="h5" sx={{ fontWeight: 700 }}>
-            {title}
-          </Typography>
-          {subtitle && (
-            <Typography variant="body2" color="text.secondary">
-              {subtitle}
-            </Typography>
-          )}
-        </Box>
+      <Box sx={{ display: 'flex', flexDirection: 'column', width: '66.66%', p: 1 }}>
+  {/* Text oben */}
+  <Box>
+    <Typography component="div" variant="h5" sx={{ fontWeight: 700 }}>
+      {title}
+    </Typography>
+    {subtitle && (
+      <Typography variant="body3" color="text.secondary">
+        {subtitle}
+      </Typography>
+    )}
+  </Box>
 
-        {/* Button unten rechts */}
-        {buttonText && (
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button
-  onClick={handleButtonClick}
-  sx={{
-    backgroundColor: clicked ? '#000000' : '#EDEDEB',
-    color: clicked ? '#FFFFFF' : '#000000',
-    textTransform: 'none',
-  }}
->
-  {buttonText}
-</Button>
+  {/* Button direkt nach Text */}
+  {buttonText && (
+    <Box sx={{  position: 'absolute', bottom: 6, right: 10 }}>
+      <Button
+        onClick={handleButtonClick}
+        sx={{
+          backgroundColor: clicked ? '#000000' : '#EDEDEB',
+          color: clicked ? '#FFFFFF' : '#000000',
+          textTransform: 'none',
+        }}
+      >
+        {buttonText}
+      </Button>
+    </Box>
+  )}
+</Box>
 
-
-          </Box>
-        )}
-      </Box>
     </Card>
   );
 }

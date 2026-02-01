@@ -25,22 +25,29 @@ export default function MapPopup({
     const navigate = useNavigate();
   
     return (
-      <Card sx={{ display: 'flex', width: 349, height:130, borderRadius:5 }}>
+      <Card  sx={{
+        display: 'flex',
+        width: 349,
+        height: 130,
+        borderRadius: 5,
+        position: 'relative' }}>
         {onClose && (
-        <IconButton aria-label="close" onClick={() => navigate('/map')}
-          size="small"
-          onClose={() => setActiveMarker(null)}
-          sx={{
-            position: 'absolute',
-            top: 4,
-            right: 25,
-            color: '#888', 
-            zIndex: 10,
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      )}
+  <IconButton
+    aria-label="close"
+    size="small"
+    onClick={onClose}
+    sx={{
+      position: 'absolute',
+      top: 6,
+      right: 6,
+      color: '#888',
+      zIndex: 10,
+    }}
+  >
+    <CloseIcon />
+  </IconButton>
+)}
+
 
         <CardMedia
           component="img"
@@ -53,7 +60,7 @@ export default function MapPopup({
           <CardContent sx={{ flex: '0 0 auto', pb: 0.5, pt: 1, }}>
             <Typography component="div" variant="h5"
   sx={{ fontWeight: 700 }}>{title}</Typography>
-            <Typography variant="subtitle1" component="div" sx={{ color: subtitleColor, fontWeight:600 }}>
+            <Typography variant="subtitle2" component="div" sx={{ color: subtitleColor, fontWeight:600 }}>
               {subtitle}
             </Typography>
           </CardContent>

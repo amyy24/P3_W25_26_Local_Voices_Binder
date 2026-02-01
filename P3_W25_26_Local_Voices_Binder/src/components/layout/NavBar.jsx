@@ -37,7 +37,7 @@ export default function SimpleBottomNavigation() {
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
-          if (newValue === 0) navigate('/route');       // Navigation Icon
+          if (newValue === 0) navigate('/map');       // Navigation Icon
           else if (newValue === 1) navigate('/map');    // Explorer Icon
           else if (newValue === 2) navigate('/map');
         }}

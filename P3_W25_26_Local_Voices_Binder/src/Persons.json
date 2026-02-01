@@ -1,0 +1,29 @@
+{
+    "persons": [
+      {
+        "name": "Emma",
+        "type": "local",
+        "categories": ["Kunst", "Kultur"],
+        "lat": 51.5101335,
+        "long": -0.1312039,
+        "icon": "green"
+      },
+      {
+        "name": "Liam",
+        "type": "reisender",
+        "categories": ["Essen", "Sport"],
+        "lat": 51.5092118,
+        "long": -0.1324673,
+        "icon": "orange"
+      },
+      {
+        "name": "National Gallery",
+        "type": "place",
+        "categories": [],
+        "lat": 51.50894,
+        "long": -0.128299,
+        "icon": "black"
+      }
+    ]
+  }
+  

@@ -30,19 +30,19 @@ export default function ConfirmRedirectDialog({
     <Dialog
       open={open}
       onClose={onClose}
-      fullScreen
+      sx={{
+        zIndex: 10000,   // höher als Leaflet
+      }}
+      container={() => document.body}  // 🔥 WICHTIG
       BackdropProps={{
         sx: {
-          backgroundColor: 'rgba(0,0,0,0.7)', // dunkler, halbtransparenter Hintergrund
+          backgroundColor: 'rgba(0,0,0,0.85)',
         },
       }}
       PaperProps={{
         sx: {
-          backgroundColor: 'transparent', // Paper selbst bleibt durchsichtig
-          boxShadow: 'none',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          backgroundColor: '#fff',
+          opacity: 1,
         },
       }}
     >
@@ -56,7 +56,7 @@ export default function ConfirmRedirectDialog({
         {/* Der Box-Hintergrund sorgt dafür, dass das Icon nicht durchsichtig wirkt */}
         <Box
           sx={{
-            bgcolor: 'white', // Deckfläche hinter dem Icon
+            backgroundColor: 'white', // Deckfläche hinter dem Icon
             borderRadius: 3,
             px: 6,
             py: 5,
@@ -68,10 +68,6 @@ export default function ConfirmRedirectDialog({
           }}
         >
           <CheckCircleIcon sx={{ fontSize: 120, color: '#2e7d32' }} />
-          <Typography variant="h6">{message}</Typography>
-          <Typography variant="body2" color="text.secondary">
-            Du wirst gleich weitergeleitet …
-          </Typography>
         </Box>
       </DialogContent>
     </Dialog>

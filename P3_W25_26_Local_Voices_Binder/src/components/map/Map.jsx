@@ -22,7 +22,8 @@ import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import { renderToString } from 'react-dom/server';
-import CloseIcon from '@mui/icons-material/Close';
+import personsData from '../../Persons.json';
+import FilterPopupDown from '../../components/map/FilterPopupDown';
 
 
 const greenIcon = new L.Icon({ iconUrl: LocalPin, iconSize: [57,70], iconAnchor:[20,40] });
@@ -49,13 +50,61 @@ const liveHelpIcon = L.divIcon({
 });
 
 
+
 export default function MapView() {
   const [activeMarker, setActiveMarker] = useState(null);
   const [activePopup, setActivePopup] = useState(null);
   const [showAnnouncementOnLocal, setShowAnnouncementOnLocal] = useState(false);
   const [showLiveHelpOnMe, setShowLiveHelpOnMe] = useState(false);
-  
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [viewFilter, setViewFilter] = useState('alle');       
+const [categoryFilter, setCategoryFilter] = useState('');   
+ // Filter-Popup öffnen/schließen
+  // Kunst, Essen, etc.
 
+
+  const handleClosePopup = () => {
+    setActivePopup(null);
+    setActiveMarker(null);
+    setShowAnnouncementOnLocal(false);
+    setShowLiveHelpOnMe(false);
+  };
+
+  console.log('[MapView]  viewFilter:', viewFilter,'categoryFilter:',categoryFilter);
+
+  const filteredPersons = personsData.persons.filter((person) => {
+    // Always show place
+    if (person.type === 'place') return true;
+  
+    // Ensure expected shapes
+    if (!person || typeof person !== 'object') return false;
+    if (!Array.isArray(person.categories)) {
+      // wenn categories fehlt oder nicht Array, treat as no categories
+      person.categories = [];
+    }
+  
+    // Ansicht-Filter: nur anwenden, wenn nicht 'alle' oder leer
+    if (viewFilter && viewFilter !== 'alle') {
+      if (viewFilter === 'nur reisende' && person.type !== 'reisender') return false;
+      if (viewFilter === 'nur locals' && person.type !== 'local') return false;
+    }
+  
+    // Kategorie-Filter: wenn gesetzt, aber 'Alltag' oder 'Natur' => show none (wie gewollt)
+    if (categoryFilter) {
+      // if special categories that should show none
+      if (['Alltag', 'Natur'].includes(categoryFilter)) {
+        return false;
+      }
+      // ansonsten muss die Kategorie im categories-Array vorkommen
+      if (!person.categories.includes(categoryFilter)) return false;
+    }
+  
+    return true;
+  });
+  
+  console.log('[MapView]filtered persons:', filteredPersons.map(p => ({name: p.name, type: p.type, categories: p.categories, icon: p.icon})));
+  
+  
   return (
     <>
       <MapContainer
@@ -73,6 +122,43 @@ export default function MapView() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="&copy; OpenStreetMap contributors"
         />
+<FilterPopupDown
+  open={isFilterOpen}
+  onClose={() => setIsFilterOpen(false)}
+  setViewFilter={setViewFilter}           // ⚡ hier weitergeben
+  setCategoryFilter={setCategoryFilter}   // ⚡ hier weitergeben
+/>
+{filteredPersons.map((person) => {
+    let icon;
+    if (person.icon === 'green') icon = greenIcon;
+    if (person.icon === 'orange') icon = orangeIcon;
+    if (person.icon === 'black') icon = blackIcon;
+
+    return (
+      <Marker
+        key={person.name}
+        position={[person.lat, person.long]}
+        icon={icon}
+        eventHandlers={{
+          click: () => {
+            setActiveMarker(person.name);
+            setActivePopup({
+              title: person.name,
+              subtitle: person.type,
+              image:
+                person.type === 'local'
+                  ? local
+                  : person.type === 'reisender'
+                  ? reisender
+                  : place,
+              onClose: () => setActivePopup(null),
+            });
+          },
+        }}
+      />
+    );
+  })}
+
 
         {/* PLACE */}
         <Marker
@@ -87,7 +173,7 @@ export default function MapView() {
                 title: 'National Gallery',
                 subtitle: 'Die Nationalgalerie ist ein Kunstmuseum in London mit ca 2300 Werken.',
                 image: place,
-                onClose: <CloseIcon />
+                onClose: handleClosePopup
               });
             },
           }}
@@ -116,7 +202,7 @@ export default function MapView() {
                 ],
                 buttonIcon: <ArrowForwardIosIcon />,
                 buttonLink: '/profilelocal',
-                onClose: <CloseIcon />
+                onClose: handleClosePopup
               });
             },
           }}
@@ -152,7 +238,7 @@ export default function MapView() {
                 ],
                 buttonIcon: <ArrowForwardIosIcon />,
                 buttonLink: '/profile',
-                onClose: <CloseIcon />
+                onClose: handleClosePopup
               });
             },
           }}
@@ -190,6 +276,7 @@ export default function MapView() {
                 image={activePopup.image}
                 buttonText="Austausch suchen"
                 onButtonClick={() => setShowLiveHelpOnMe(true)}
+                onClose={activePopup.onClose}
               />
             ) : (
               <MapPopup {...activePopup} />

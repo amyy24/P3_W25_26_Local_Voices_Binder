@@ -10,9 +10,10 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import SimpleBottomNavigation from '../components/layout/NavBar';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import Divider from '@mui/material/Divider';
 
 export function MeetingPage() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -20,61 +21,73 @@ export function MeetingPage() {
         flexDirection: 'column',
         alignItems: 'center',
         minHeight: '100vh',
-        pt: 2,
-        pb: 8, // Platz lassen für die Navbar
+        pt: { xs: 3, sm: 2 },
+        pb: 12, // Platz für Navbar
+        px: { xs: 2, sm: 4 },
+        boxSizing: 'border-box',
       }}
     >
       {/* Überschrift */}
-      <h2>you're meeting</h2>;
+      <Typography variant="h4" sx={{ fontWeight: 700, mt: 1 }}>
+        you're meeting
+      </Typography>
+
       {/* Bild */}
-      <Box sx={{ mt: 2 }}>
+      <Box sx={{ mt: 5, width: { xs: '90%', sm: '60%', md: '35%' }, display: 'flex', justifyContent: 'center' }}>
         <img
           src={Meeting}
           alt="Meeting"
           style={{
-            width: '35%',
-            borderRadius: '12px',
+            width: '70%',
+            maxWidth: 420,
+            borderRadius: 12,
             display: 'block',
-            margin: '0 auto',
           }}
         />
       </Box>
 
       {/* Infos */}
-      <Box sx={{ mt: 3, width: '35%' }}>
+      <Box sx={{ mt: 8, width: { xs: '95%', sm: '60%', md: '35%' } }}>
         <MeetingInfoRow icon={<ColorLensIcon />} title="Kunst" />
+        <Divider sx={{ mb: 3, borderColor: '#EDEDEB' }} />
         <MeetingInfoRow icon={<AccessTimeIcon />} title="1 km" subtitle="Noch 10 min" />
+        <Divider sx={{ mb: 3, borderColor: '#EDEDEB' }} />
         <MeetingInfoRow icon={<PersonIcon />} title="2 Personen (privat)" />
+        <Divider sx={{ mb: 3, borderColor: '#EDEDEB' }} />
         <MeetingInfoRow
           icon={<LocationPinIcon />}
           title="Treffpunkt"
           subtitle="du gehst zu Emma"
           buttonRight={{
             icon: <ArrowForwardIosIcon />,
-            link: "/route",
-            
+            link: '/route',
           }}
         />
+      </Box>
+
+      {/* Action Buttons */}
+      <Box sx={{ mt: 12, width: { xs: '95%', sm: '60%', md: '35%' }, display: 'flex', gap: 2, justifyContent: 'center' }}>
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: '#EDEDEB',
+            color: '#000000',
+            borderRadius: 2,
+            px: 4,
+            textTransform: 'none',
+            fontWeight: 500,
+            width: { xs: '100%', sm: 'auto' },
+          }}
+          onClick={() => navigate('/map')}
+        >
+          Abbrechen
+        </Button>
       </Box>
 
       {/* Navbar am unteren Rand */}
       <Box sx={{ width: '100%', position: 'fixed', bottom: 0, left: 0 }}>
         <SimpleBottomNavigation />
       </Box>
-      <Button
-    variant="contained"
-    sx={{
-      backgroundColor: '#EDEDEB',
-      color: '#000000',
-      borderRadius: 2,
-      px: 4,
-      textTransform: 'none',
-      fontWeight: 500,
-    }}
-    onClick={() => navigate('/map')}
-  >
-    Abbrechen
-  </Button>
     </Box>
   );
 }

@@ -18,11 +18,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
       left: 0,
       width: '100%',
       height: '100%',
-
-      
     },
   },
-  
 }));
 
 const SmallAvatar = styled(Avatar)(({ theme }) => ({
@@ -31,8 +28,6 @@ const SmallAvatar = styled(Avatar)(({ theme }) => ({
   border: `2px solid ${theme.palette.background.paper}`,
 }));
 
-
-
 export default function BadgeAvatars({
   mainImage,      // großes Avatar
   badgeImage,
@@ -40,7 +35,7 @@ export default function BadgeAvatars({
   subtitle,
   subtitleColor,
   infos,
-      // kleines Avatar
+  // kleines Avatar
 }) {
   const navigate = useNavigate();
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -48,144 +43,166 @@ export default function BadgeAvatars({
   const handleMeetClick = () => {
     setConfirmOpen(true);
   };
+
   return (
     <>
-    <Box
-      sx={{
-        position: 'fixed',
-        top: 16,
-        right: 16,
-        zIndex: 3000,
-      }}
-    >
-      <IconButton aria-label="close" onClick={() => navigate('/map')}>
-        <CloseIcon />
-      </IconButton>
-    </Box>
-    <Box
-       sx={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100vh',           // volle Höhe des Screens
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',  // vertikal zentrieren
-        alignItems: 'center',      // horizontal zentrieren
-        px: 2,
-        pt: { xs: 6, sm: 8 },
-        zIndex: 2000,
-        boxSizing: 'border-box',
-      }}
-    >
-        
-      <Box sx={{ textAlign: 'center', mt: 1 }}>
-      <StyledBadge
-        overlap="circular"
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        badgeContent={
-          <SmallAvatar src={badgeImage}  />
-        }
+      {/* Close-Button oben rechts bleibt fixiert */}
+      <Box
+        sx={{
+          position: 'fixed',
+          top: 16,
+          right: 16,
+          zIndex: 3000,
+        }}
       >
-        <Avatar src={mainImage} sx={{ width: 100, height: 100 }} />
-      </StyledBadge>
-      <Typography variant="h4">{title}</Typography>
-        <Typography variant="body2" sx={{ color: subtitleColor || 'text.primary' }} // Orange für "Reisender", Schwarz für alles andere
-  >
-          {subtitle}
-        </Typography>
+        <IconButton aria-label="close" onClick={() => navigate('/map')}>
+          <CloseIcon />
+        </IconButton>
       </Box>
-      
-      <Box sx={{ mt: 3, pl: 1 }}>
-  {infos.map((info, index) => (
-    <Box key={index} sx={{ mb: 1 }}>
-      {info.title && (
+
+      {/* Vollflächiger Container, Inhalt zentriert */}
+      <Box
+        sx={{
+          position: 'fixed',
+          inset: 0, // top:0, right:0, bottom:0, left:0
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'flex-start',            // zentriert vertikal
+          px: 2,
+          py: { xs: '5vh', sm: '8vh', md: 6 },            // Abstand für sehr kleine Bildschirme
+          overflowY: 'auto',               // erlaubt scrollen, falls nötig
+          zIndex: 2000,
+          boxSizing: 'border-box',
+        }}
+      >
         <Box
           sx={{
-            display: 'flex', // Flexbox für horizontale Ausrichtung
-            alignItems: 'center', // Vertikale Ausrichtung zentrieren
-            justifyContent: 'space-between', // Platz zwischen den Elementen
-            width: '100%', // Nimmt die gesamte Breite ein
+            width: '100%',
+            maxWidth: 520,
+            bgcolor: 'transparent',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 2,
           }}
         >
-          <Typography variant="body1" fontWeight="bold">
-            {info.title}
-          </Typography>
-          {info.right && (
-            <Box
+          <Box sx={{ textAlign: 'center', mt: 1 }}>
+            <StyledBadge
+              overlap="circular"
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              badgeContent={<SmallAvatar src={badgeImage} />}
+            >
+              <Avatar
+                src={mainImage}
+                sx={{
+                  width: { xs: 140, sm: 100 },   // größer auf iPhone (xs)
+                  height: { xs: 140, sm: 100 },
+                }}
+              />
+            </StyledBadge>
+
+            <Typography
+              variant="h4"
               sx={{
-                display: 'flex',
-                alignItems: 'center', // Vertikale Ausrichtung zentrieren
-                gap: 0.5, // Abstand zwischen Icon und Text
+                mt: 1,
+                fontSize: { xs: '1.8rem', sm: '2rem' }, // responsive
+                fontWeight: 700,
               }}
             >
-              {info.right.icon}
-              <Typography variant="body2">{info.right.label}</Typography>
-            </Box>
-          )}
-        </Box>
-      )}
-      {info.subtitle && (
-        <Typography variant="body2" color="#000000">
-          {info.subtitle}
-        </Typography>
-      )}
-      
-      {info.icons && (
-        <Box sx={{ display: 'flex', gap: 1, mt: 0.5 }}>
-          {info.icons.map((item, i) => (
-            <Box 
-            key={i} 
-            sx={{ 
-                display: 'flex',
-                alignItems: 'center',
-                gap: 0.5
-                }}
-                >
-              <Box
-                sx={{
-                color: info.title === "Thema" ? '#7194FF' : 'text.primary', // Blau für "Thema", Schwarz für alles andere
-                }} 
-                >
-              {item.icon}
+              {title}
+            </Typography>
+
+            <Typography
+              variant="body2"
+              sx={{
+                color: subtitleColor || 'text.primary',
+                fontSize: { xs: '1.05rem', sm: '1rem',fontWeight: 600 },
+                mt: 0.5,
+              }}
+            >
+              {subtitle}
+            </Typography>
+          </Box>
+
+          <Box sx={{ mt: 1, width: '100%' }}>
+            {infos.map((info, index) => (
+              <Box key={index} sx={{ mb: 1 }}>
+                {info.title && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      width: '100%',
+                    }}
+                  >
+                    <Typography variant="body1" fontWeight="bold"sx={{ fontSize: '1.rem', fontWeight: 600 }}>
+                      {info.title}
+                    </Typography>
+                    {info.right && (
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        {info.right.icon}
+                        <Typography variant="body2" sx={{ fontSize: { xs: '0.95rem', sm: '1rem' } }}>
+                          {info.right.label}
+                        </Typography>
+                      </Box>
+                    )}
+                  </Box>
+                )}
+                {info.subtitle && (
+                  <Typography variant="body2" color="#000000" sx={{ fontSize: { xs: '0.95rem', sm: '1rem' } }}>
+                    {info.subtitle}
+                  </Typography>
+                )}
+
+                {info.icons && (
+                  <Box sx={{ display: 'flex', gap: 1, mt: 0.5 }}>
+                    {info.icons.map((item, i) => (
+                      <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        <Box sx={{ color: info.title === 'Thema' ? '#7194FF' : 'text.primary' }}>
+                          {item.icon}
+                        </Box>
+                        <Typography variant="body2" sx={{ fontSize: { xs: '0.95rem', sm: '1rem' } }}>
+                          {item.label}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Box>
+                )}
               </Box>
-              <Typography variant="body2">{item.label}</Typography>
-            </Box>
-          ))}
+            ))}
+          </Box>
+
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 15, width: '100%' }}>
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: '#F05323',
+                color: '#FFFFFF',
+                borderRadius: 2,
+                px: { xs: 5, sm: 4 },
+                py: { xs: 1.25, sm: 0.75 },
+                textTransform: 'none',
+                fontWeight: 600,
+                fontSize: { xs: '1.05rem', sm: '1rem' }, // größer auf Mobile
+                width: { xs: '100%', sm: 'auto' },
+                maxWidth: 360,
+              }}
+              onClick={handleMeetClick}
+            >
+              mich treffen
+            </Button>
+          </Box>
         </Box>
-      )}
-    </Box>
-  ))}
-    </Box>
 
-    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-  <Button
-    variant="contained"
-    sx={{
-      backgroundColor: '#F05323',
-      color: '#FFFFFF',
-      borderRadius: 2,
-      px: 4,
-      textTransform: 'none',
-      fontWeight: 500,
-    }}
-    onClick={handleMeetClick}
-  >
-    mich treffen
-  </Button>
-</Box>
-
-<ConfirmRedirect
-  open={confirmOpen}
-  onClose={() => setConfirmOpen(false)}
-  to="/meeting"
-  message="Treffen wird vorbereitet"
-  duration={3000}
-/>
-</Box>
-    
-    
-</>
+        <ConfirmRedirect
+          open={confirmOpen}
+          onClose={() => setConfirmOpen(false)}
+          to="/meeting"
+          message="Treffen wird vorbereitet"
+          duration={3000}
+        />
+      </Box>
+    </>
   );
 }

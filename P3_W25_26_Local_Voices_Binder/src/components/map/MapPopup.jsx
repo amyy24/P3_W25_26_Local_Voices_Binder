@@ -25,7 +25,7 @@ export default function MapPopup({
     const navigate = useNavigate();
   
     return (
-      <Card sx={{ display: 'flex', width: 349, height:130 }}>
+      <Card sx={{ display: 'flex', width: 349, height:130, borderRadius:5 }}>
         {onClose && (
         <IconButton aria-label="close" onClick={() => navigate('/map')}
           size="small"
@@ -51,8 +51,9 @@ export default function MapPopup({
   
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '66.66%' }}>
           <CardContent sx={{ flex: '0 0 auto', pb: 0.5, pt: 1, }}>
-            <Typography component="div" variant="h5">{title}</Typography>
-            <Typography variant="subtitle1" component="div" sx={{ color: subtitleColor }}>
+            <Typography component="div" variant="h5"
+  sx={{ fontWeight: 700 }}>{title}</Typography>
+            <Typography variant="subtitle1" component="div" sx={{ color: subtitleColor, fontWeight:600 }}>
               {subtitle}
             </Typography>
           </CardContent>

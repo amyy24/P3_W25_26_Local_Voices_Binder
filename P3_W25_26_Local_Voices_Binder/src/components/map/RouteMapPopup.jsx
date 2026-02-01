@@ -11,9 +11,10 @@ export default function IconLabelButtons() {
         bottom: 70, // über der Navbar (falls Navbar ~56px hoch)
         left: 16,
         zIndex: 1001, }}
+        
         >
       <Button variant="contained" endIcon={<ArrowForwardIosIcon />} sx={{backgroundColor: '#FFFFFF',
-      color: '#000000', }}onClick={() => navigate('/meeting')}>
+      color: '#000000',  borderRadius: 25,textTransform: 'none',fontWeight:700 }}onClick={() => navigate('/meeting')}>
         you're meeting
       </Button>
     </Stack>

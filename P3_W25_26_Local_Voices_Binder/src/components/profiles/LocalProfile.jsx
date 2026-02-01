@@ -90,10 +90,7 @@ export default function BadgeAvatars({
       >
         <Avatar src={mainImage} sx={{ width: 100, height: 100 }} />
       </StyledBadge>
-        <Typography variant="h6" sx={{
-        mt: 2,                     // Abstand über Titel
-        mb: 1,                     // Abstand unter Titel
-      }}>{title}</Typography>
+      <Typography variant="h4">{title}</Typography>
         <Typography variant="body2" sx={{ color: subtitleColor || 'text.primary' }} // Orange für "Reisender", Schwarz für alles andere
   >
           {subtitle}

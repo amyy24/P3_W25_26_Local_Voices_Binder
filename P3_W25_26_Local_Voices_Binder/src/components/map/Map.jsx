@@ -85,7 +85,7 @@ export default function MapView() {
               setActivePopup({
                 type: 'place',
                 title: 'National Gallery',
-                subtitle: 'Die Nationalgalerie ist ein Kunstmuseum.',
+                subtitle: 'Die Nationalgalerie ist ein Kunstmuseum in London mit ca 2300 Werken.',
                 image: place,
                 onClose: <CloseIcon />
               });

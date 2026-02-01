@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
+import { useNavigate } from 'react-router-dom';
 
 export default function MapPopupPlace({
   title,
@@ -18,6 +20,7 @@ export default function MapPopupPlace({
 }) {
   const theme = useTheme();
   const [clicked, setClicked] = useState(false); // Zustand für Button-Farbe
+  const navigate = useNavigate();
 
   const handleButtonClick = () => {
     setClicked(true);          //  Button wird schwarz
@@ -27,15 +30,16 @@ export default function MapPopupPlace({
   };
   
   return (
-    <Card sx={{ display: 'flex', width: 349, height:130 }}>
+    <Card sx={{ display: 'flex', width: 349, height:130, borderRadius:5, position: 'relative', // wichtig für absolute Kinder
+      overflow: 'visible' }}>
       {onClose && (
-        <IconButton
+        <IconButton aria-label="close" onClick={() => navigate('/map')}
           size="small"
-          onClick={onClose}
+          onClose={() => setActiveMarker(null)}
           sx={{
             position: 'absolute',
             top: 4,
-            right: 25,
+            right: 4,
             color: '#888', 
             zIndex: 10,
           }}
@@ -43,11 +47,13 @@ export default function MapPopupPlace({
           <CloseIcon />
         </IconButton>
       )}
+
       {/* Bild oben */}
       {image && (
         <CardMedia
           component="img"
-          sx={{ width: '33.33%', objectFit: 'cover' }}
+          sx={{ width: '33.33%', objectFit: 'cover',  borderTopLeftRadius: 5,
+            borderBottomLeftRadius: 5 }}
           image={image}
           alt={title}
         />
@@ -57,7 +63,7 @@ export default function MapPopupPlace({
       <Box sx={{ display: 'flex', flexDirection: 'column', width: '66.66%', p: 1, justifyContent: 'space-between' }}>
         {/* Text oben */}
         <Box>
-          <Typography component="div" variant="h5">
+          <Typography component="div" variant="h5" sx={{ fontWeight: 700 }}>
             {title}
           </Typography>
           {subtitle && (

@@ -8,7 +8,7 @@ export function StartPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate("/map");
-    }, 5000);
+    }, 2000);
     return () => clearTimeout(timer);
   }, [])
   return (

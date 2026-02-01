@@ -16,16 +16,15 @@ export default function SimpleBottomNavigation() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Pfadabhängig active Icon setzen
     if (location.pathname === '/map') {
       setValue(1); // mittleres Icon aktiv
-    } else if (location.pathname === '/route', '/meeting') {
-      setValue(0);
-    } else if (location.pathname === '/map') {
-      setValue(2);
+    } else if (location.pathname === '/route' || location.pathname === '/meeting') {
+      setValue(0); // linkes Icon aktiv
+    } else if (location.pathname === '/myprofile') {
+      setValue(2); // rechtes Icon aktiv
     }
   }, [location.pathname]);
-
+  
   return (
     <Box sx={{ position: 'fixed',
         width: '100%',
@@ -39,7 +38,7 @@ export default function SimpleBottomNavigation() {
           setValue(newValue);
           if (newValue === 0) navigate('/map');       // Navigation Icon
           else if (newValue === 1) navigate('/map');    // Explorer Icon
-          else if (newValue === 2) navigate('/map');
+          else if (newValue === 2) navigate('/myprofile');
         }}
         sx={{
           backgroundColor: '#EDEDEB',

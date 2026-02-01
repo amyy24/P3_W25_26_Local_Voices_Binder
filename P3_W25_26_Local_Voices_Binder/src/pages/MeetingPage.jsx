@@ -66,7 +66,7 @@ export function MeetingPage() {
       </Box>
 
       {/* Action Buttons */}
-      <Box sx={{ mt: 12, width: { xs: '95%', sm: '60%', md: '35%' }, display: 'flex', gap: 2, justifyContent: 'center' }}>
+      <Box sx={{ mt: 8, width: { xs: '95%', sm: '60%', md: '35%' }, display: 'flex', gap: 2, justifyContent: 'center' }}>
         <Button
           variant="contained"
           sx={{

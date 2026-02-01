@@ -26,25 +26,27 @@ import personsData from '../../Persons.json';
 import FilterPopupDown from '../../components/map/FilterPopupDown';
 
 
-const greenIcon = new L.Icon({ iconUrl: LocalPin, iconSize: [57,70], iconAnchor:[20,40] });
-const greenIconBig = new L.Icon({ iconUrl: LocalPin, iconSize: [77,90], iconAnchor:[30,70] });
+const greenIcon = new L.Icon({ iconUrl: LocalPin, iconSize: [57,70], iconAnchor:[57/2, 70] });
+const greenIconBig = new L.Icon({ iconUrl: LocalPin, iconSize: [77,90], iconAnchor:[77/2, 90]  });
 
-const orangeIcon = new L.Icon({ iconUrl: ReisenderPin, iconSize: [57,70], iconAnchor:[20,40] });
-const orangeIconBig = new L.Icon({ iconUrl: ReisenderPin, iconSize: [77,90], iconAnchor:[30,70] });
+const orangeIcon = new L.Icon({ iconUrl: ReisenderPin, iconSize: [57,70], iconAnchor:[57/2, 70] });
+const orangeIconBig = new L.Icon({ iconUrl: ReisenderPin, iconSize: [77,90], iconAnchor:[77/2, 90]  });
 
-const blackIcon = new L.Icon({ iconUrl: PlacePin, iconSize: [57,70], iconAnchor:[20,40] });
-const blackIconBig = new L.Icon({ iconUrl: PlacePin, iconSize: [77,90], iconAnchor:[30,70] });
+const blackIcon = new L.Icon({ iconUrl: PlacePin, iconSize: [57,70], iconAnchor:[57/2, 70] });
+const blackIconBig = new L.Icon({ iconUrl: PlacePin, iconSize: [77,90], iconAnchor:[77/2, 90] });
 
 const blueIcon = new L.Icon({ iconUrl: MePin, iconSize: [57,90], iconAnchor:[20,40] });
 
 const announcementIcon = L.divIcon({
   html: renderToString(<AnnouncementIcon style={{ color:'#000', fontSize:28 }} />),
+  className: '', 
   iconSize:[30,30],
   iconAnchor:[-25,50]
 });
 
 const liveHelpIcon = L.divIcon({
   html: renderToString(<LiveHelpIcon style={{ color:'#000', fontSize:28 }} />),
+  className: '', 
   iconSize:[30,30],
   iconAnchor:[-20,50]
 });
@@ -57,10 +59,20 @@ export default function MapView() {
   const [showAnnouncementOnLocal, setShowAnnouncementOnLocal] = useState(false);
   const [showLiveHelpOnMe, setShowLiveHelpOnMe] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [viewFilter, setViewFilter] = useState('alle');       
-const [categoryFilter, setCategoryFilter] = useState('');   
- // Filter-Popup öffnen/schließen
-  // Kunst, Essen, etc.
+  // statt: const [viewFilter, setViewFilter] = useState('alle');
+// und:  const [categoryFilter, setCategoryFilter] = useState('');
+const [viewFilterState, setViewFilterState] = useState('alle');
+const [categoryFilterState, setCategoryFilterState] = useState('');
+
+// Debug: zeige bei Änderung, dass die Parent-Setter aufgerufen wurden
+const setViewFilter = (v) => {
+  console.log('[Map] parent setViewFilter called with:', v);
+  setViewFilterState(v);
+};
+const setCategoryFilter = (v) => {
+  console.log('[Map] parent setCategoryFilter called with:', v);
+  setCategoryFilterState(v);
+};
 
 
   const handleClosePopup = () => {
@@ -70,40 +82,47 @@ const [categoryFilter, setCategoryFilter] = useState('');
     setShowLiveHelpOnMe(false);
   };
 
-  console.log('[MapView]  viewFilter:', viewFilter,'categoryFilter:',categoryFilter);
+  // Debug: zeigt aktuelle Filterwerte
+console.log('[MapView] viewFilter:', viewFilterState, 'categoryFilter:', categoryFilterState);
 
-  const filteredPersons = personsData.persons.filter((person) => {
-    // Always show place
-    if (person.type === 'place') return true;
-  
-    // Ensure expected shapes
-    if (!person || typeof person !== 'object') return false;
-    if (!Array.isArray(person.categories)) {
-      // wenn categories fehlt oder nicht Array, treat as no categories
-      person.categories = [];
+const normalize = (s) => (s ? String(s).trim().toLowerCase() : '');
+
+const vf = normalize(viewFilterState);
+const cf = normalize(categoryFilterState);
+
+const filteredPersons = personsData.persons.filter((person) => {
+  // always show places
+  if (person.type === 'place') return true;
+
+  // defensive: ensure categories is an array
+  const categories = Array.isArray(person.categories) ? person.categories : [];
+
+  // Normalize person fields
+  const personType = normalize(person.type);
+  const personCategories = categories.map(normalize);
+
+  // 1) Ansicht-Filter (view)
+  if (vf && vf !== 'alle') {
+    // "nur reisende" -> 'reis' wird matchen, "nur locals" -> 'local' matchen
+    if (vf.includes('reis') && personType !== 'reisender') return false;
+    if (vf.includes('local') || vf.includes('locals')) {
+      if (personType !== 'local') return false;
     }
-  
-    // Ansicht-Filter: nur anwenden, wenn nicht 'alle' oder leer
-    if (viewFilter && viewFilter !== 'alle') {
-      if (viewFilter === 'nur reisende' && person.type !== 'reisender') return false;
-      if (viewFilter === 'nur locals' && person.type !== 'local') return false;
-    }
-  
-    // Kategorie-Filter: wenn gesetzt, aber 'Alltag' oder 'Natur' => show none (wie gewollt)
-    if (categoryFilter) {
-      // if special categories that should show none
-      if (['Alltag', 'Natur'].includes(categoryFilter)) {
-        return false;
-      }
-      // ansonsten muss die Kategorie im categories-Array vorkommen
-      if (!person.categories.includes(categoryFilter)) return false;
-    }
-  
-    return true;
-  });
-  
-  console.log('[MapView]filtered persons:', filteredPersons.map(p => ({name: p.name, type: p.type, categories: p.categories, icon: p.icon})));
-  
+  }
+
+  // 2) Kategorie-Filter (category)
+  if (cf) {
+    // special rule: 'alltag' or 'natur' => show none (per deiner Anforderung)
+    if (cf === 'alltag' || cf === 'natur') return false;
+
+    // otherwise person must include the category (case-insensitive)
+    if (!personCategories.includes(cf)) return false;
+  }
+
+  return true;
+});
+
+console.log('[MapView] filtered persons:', filteredPersons.map(p => ({ name: p.name, type: p.type, categories: p.categories })));
   
   return (
     <>
@@ -210,7 +229,7 @@ const [categoryFilter, setCategoryFilter] = useState('');
 
         {showAnnouncementOnLocal && (
           <Marker
-            position={[51.5101335, -0.1312039]}
+            position={[51.5104535, -0.1312039]}
             icon={announcementIcon}
             interactive={false}
           />
@@ -254,6 +273,7 @@ const [categoryFilter, setCategoryFilter] = useState('');
           />
         )}
       </MapContainer>
+      
 
       {activePopup && (
         <div

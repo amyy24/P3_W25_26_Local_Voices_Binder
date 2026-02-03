@@ -58,14 +58,15 @@ export default function MapView() {
   const [activePopup, setActivePopup] = useState(null);
   const [showAnnouncementOnLocal, setShowAnnouncementOnLocal] = useState(false);
   const [showLiveHelpOnMe, setShowLiveHelpOnMe] = useState(false);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-const [viewFilterState, setViewFilterState] = useState('alle');
-const [categoryFilterState, setCategoryFilterState] = useState('');
+  const [viewFilterState, setViewFilterState] = useState('alle');  // default "alle"
+const [categoryFilterState, setCategoryFilterState] = useState(''); // default leer
+const [open, setOpen] = useState(false); // für FilterDrawer
+
 
 // Debug: zeige bei Änderung, dass die Parent-Setter aufgerufen wurden
 const setViewFilter = (v) => {
   console.log('[Map] parent setViewFilter called with:', v);
-  setViewFilterState(v);
+  State(v);
 };
 const setCategoryFilter = (v) => {
   console.log('[Map] parent setCategoryFilter called with:', v);
@@ -83,42 +84,35 @@ const setCategoryFilter = (v) => {
   // Debug: zeigt aktuelle Filterwerte
 console.log('[MapView] viewFilter:', viewFilterState, 'categoryFilter:', categoryFilterState);
 
-const normalize = (s) => (s ? String(s).trim().toLowerCase() : '');
+const normalize = (s) => (s ? s.toLowerCase().trim() : '');
 
-const vf = normalize(viewFilterState);
-const cf = normalize(categoryFilterState);
+const vf = normalize(viewFilterState);        // z.B. "nur reisende"
+const cf = normalize(categoryFilterState);    // z.B. "kunst"
 
 const filteredPersons = personsData.persons.filter((person) => {
-  // always show places
-  if (person.type === 'place') return true;
+  const type = normalize(person.type);
+  const categories = (person.categories || []).map(normalize);
 
-  // defensive: ensure categories is an array
-  const categories = Array.isArray(person.categories) ? person.categories : [];
+  //  PLACE bleibt IMMER sichtbar
+  if (type === 'place') return true;
 
-  // Normalize person fields
-  const personType = normalize(person.type);
-  const personCategories = categories.map(normalize);
+  //  Alltag & Natur → keine Personen
+  if (cf === 'alltag' || cf === 'natur') return false;
 
-  // 1) Ansicht-Filter (view)
-  if (vf && vf !== 'alle') {
-    // "nur reisende" -> 'reis' wird matchen, "nur locals" -> 'local' matchen
-    if (vf.includes('reis') && personType !== 'reisender') return false;
-    if (vf.includes('local') || vf.includes('locals')) {
-      if (personType !== 'local') return false;
-    }
-  }
-
-  // 2) Kategorie-Filter (category)
+  //  Kategorie-Filter (höchste Priorität)
   if (cf) {
-    // special rule: 'alltag' or 'natur' => show none (per deiner Anforderung)
-    if (cf === 'alltag' || cf === 'natur') return false;
-
-    // otherwise person must include the category (case-insensitive)
-    if (!personCategories.includes(cf)) return false;
+    return categories.includes(cf);
   }
 
+  //  Ansicht-Filter
+  if (vf === 'nur locals') return type === 'local';
+  if (vf === 'nur reisende') return type === 'reisender';
+
+  // 🌍 alle
   return true;
 });
+
+
 
 console.log('[MapView] filtered persons:', filteredPersons.map(p => ({ name: p.name, type: p.type, categories: p.categories })));
 return (
@@ -139,12 +133,15 @@ return (
           attribution="&copy; OpenStreetMap contributors"
         />
 
-      <FilterPopupDown
-        open={isFilterOpen}
-        onClose={() => setIsFilterOpen(false)}
-        setViewFilter={setViewFilter}           // ⚡ hier weitergeben
-        setCategoryFilter={setCategoryFilter}   // ⚡ hier weitergeben
-      />
+<FilterPopupDown
+  open={open}
+  onClose={() => setOpen(false)}
+  viewFilter={viewFilterState}
+  categoryFilter={categoryFilterState}
+  setViewFilter={setViewFilter}
+  setCategoryFilter={setCategoryFilter}
+/>
+
 
     {filteredPersons.map((person) => {
         let icon;
@@ -228,9 +225,10 @@ return (
 
         {showAnnouncementOnLocal && (
           <Marker
-            position={[51.5104535, -0.1312039]}
+            position={[51.5104535, -0.1312939]}
             icon={announcementIcon}
             interactive={false}
+            zIndexOffset={1000} 
           />
         )}
 
@@ -278,7 +276,7 @@ return (
         <div
           style={{
             position: 'fixed',
-            bottom: 72,
+            bottom: 90,
             left: 0,
             width: '100%',
             display: 'flex',

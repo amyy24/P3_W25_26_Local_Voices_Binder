@@ -150,7 +150,7 @@ export default function BadgeAvatars({
                     )}
                   </Box>
                 )}
-                
+
                 {info.subtitle && (
                   <Typography variant="body2" color="#000000" sx={{ fontSize: { xs: '0.95rem', sm: '1rem' } }}>
                     {info.subtitle}
@@ -201,7 +201,6 @@ export default function BadgeAvatars({
           open={confirmOpen}
           onClose={() => setConfirmOpen(false)}
           to="/meeting"
-          message="Treffen wird vorbereitet"
           duration={3000}
         />
       </Box>

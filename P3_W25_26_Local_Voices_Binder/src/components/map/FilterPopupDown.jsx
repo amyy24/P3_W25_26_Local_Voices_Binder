@@ -31,6 +31,7 @@ function FilterSection({ title, options, selectedOption, onSelect, isCategory = 
               textTransform: 'none',
               bgcolor: selectedOption === option ? 'black' : 'white',
               color: selectedOption === option ? 'white' : 'black',
+        
               '&:hover': {
                 bgcolor: selectedOption === option ? 'black' : '#f0f0f0',
               },
@@ -105,9 +106,13 @@ export default function FilterPopupDown({
           borderTopLeftRadius: 16,
           borderTopRightRadius: 16,
           p: 3,
+         
+          
         },
       }}
+      
     >
+
       <Typography
         variant="h6"
         align="center"
@@ -141,7 +146,6 @@ export default function FilterPopupDown({
             borderColor: 'black',
             bgcolor: 'white',
             color: '#51853C',
-            '&:hover': { bgcolor: '#f0f0f0' },
           }}
         >
           Zurücksetzen
@@ -154,9 +158,6 @@ export default function FilterPopupDown({
             textTransform: 'none',
             bgcolor: hasChanged ? '#51853C' : 'rgba(95, 119, 87, 0.50)',
             color: hasChanged ? 'white' : 'black',
-            '&:hover': {
-              bgcolor: hasChanged ? 'darkgreen' : '#8bc78b',
-            },
           }}
         >
           Speichern

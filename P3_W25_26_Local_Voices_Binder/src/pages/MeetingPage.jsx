@@ -66,23 +66,26 @@ export function MeetingPage() {
       </Box>
 
       {/* Action Buttons */}
-      <Box sx={{ mt: 8, width: { xs: '95%', sm: '60%', md: '35%' }, display: 'flex', gap: 2, justifyContent: 'center' }}>
-        <Button
-          variant="contained"
-          sx={{
-            backgroundColor: '#EDEDEB',
-            color: '#000000',
-            borderRadius: 2,
-            px: 4,
-            textTransform: 'none',
-            fontWeight: 500,
-            width: { xs: '100%', sm: 'auto' },
-          }}
-          onClick={() => navigate('/map')}
-        >
-          Abbrechen
-        </Button>
-      </Box>
+      <Box sx={{ mt: 6, width: { xs: '95%', sm: '60%', md: '35%' }, display: 'flex', gap: 2, justifyContent: 'center' }}>
+  <Button
+    variant="contained"
+    sx={{
+      backgroundColor: '#EDEDEB',
+      color: '#000000',
+      borderRadius: 2,
+      px: 4,
+      py: { xs: 1.25, sm: 0.75 },
+      textTransform: 'none',
+      fontWeight: 500,
+      fontSize: { xs: '1.05rem', sm: '1rem' },
+      width: { xs: '100%', sm: 'auto' },
+      maxWidth: 360,
+    }}
+    onClick={() => navigate('/map')}
+  >
+    Abbrechen
+  </Button>
+</Box>
 
       {/* Navbar am unteren Rand */}
       <Box sx={{ width: '100%', position: 'fixed', bottom: 0, left: 0 }}>

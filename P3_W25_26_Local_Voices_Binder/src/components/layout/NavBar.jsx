@@ -30,7 +30,7 @@ export default function SimpleBottomNavigation() {
       bottom: 0,
       left: 0,
       width: '100%',
-      height: 80,
+      height: 50,
       zIndex: 1000,
       backgroundColor: '#EDEDEB',
       }}  
@@ -58,7 +58,7 @@ export default function SimpleBottomNavigation() {
           },
         }}
       >
-        <BottomNavigationAction  icon={<NavigationIcon sx={{ fontSize: 34 }} />}disableRipple sx={{
+        <BottomNavigationAction  icon={<NavigationIcon sx={{ fontSize: 30 }} />}disableRipple sx={{
         '&.Mui-selected': {
         outline: 'none',  // entfernt Fokus-Outline
         boxShadow: 'none',
@@ -67,14 +67,14 @@ export default function SimpleBottomNavigation() {
         outline: 'none',
         boxShadow: 'none',
         },
-          minHeight: '100%',           // ⬅️ nimmt volle Navbar-Höhe
+          minHeight: '100%',           //  nimmt volle Navbar-Höhe
           display: 'flex',
-          alignItems: 'center',        // ⬅️ Icon vertikal mittig
-          justifyContent: 'center',    // ⬅️ Icon horizontal mittig
+          alignItems: 'center',        //  Icon vertikal mittig
+          justifyContent: 'center',    //  Icon horizontal mittig
        
        }}/>
 
-        <BottomNavigationAction  icon={<ExploreIcon sx={{ fontSize: 34 }} />} disableRipple sx={{
+        <BottomNavigationAction  icon={<ExploreIcon sx={{ fontSize: 30 }} />} disableRipple sx={{
         '&.Mui-selected': {
         outline: 'none',  // entfernt Fokus-Outline
         boxShadow: 'none',
@@ -83,13 +83,13 @@ export default function SimpleBottomNavigation() {
         outline: 'none',
         boxShadow: 'none',
         },
-        minHeight: '100%',           // ⬅️ nimmt volle Navbar-Höhe
+        minHeight: '100%',           // nimmt volle Navbar-Höhe
           display: 'flex',
-          alignItems: 'center',        // ⬅️ Icon vertikal mittig
+          alignItems: 'center',        // Icon vertikal mittig
           justifyContent: 'center',
         }}/>
         
-        <BottomNavigationAction  icon={<PersonIcon sx={{ fontSize: 34 }}  />} disableRipple sx={{
+        <BottomNavigationAction  icon={<PersonIcon sx={{ fontSize: 30 }}  />} disableRipple sx={{
         '&.Mui-selected': {
         outline: 'none',  // entfernt Fokus-Outline
         boxShadow: 'none',
@@ -98,9 +98,9 @@ export default function SimpleBottomNavigation() {
         outline: 'none',
         boxShadow: 'none',
         },
-        minHeight: '100%',           // ⬅️ nimmt volle Navbar-Höhe
+        minHeight: '100%',           // nimmt volle Navbar-Höhe
           display: 'flex',
-          alignItems: 'center',        // ⬅️ Icon vertikal mittig
+          alignItems: 'center',        // Icon vertikal mittig
           justifyContent: 'center',
         }}/>
       </BottomNavigation>

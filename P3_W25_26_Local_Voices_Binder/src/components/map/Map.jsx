@@ -304,7 +304,7 @@ export default function MapView() {
         <div
           style={{
             position: 'fixed',
-            bottom: 90,
+            bottom: 70,
             left: 0,
             width: '100%',
             display: 'flex',

@@ -7,7 +7,7 @@ export default function FilterPopupsmall({ onClick }) {
   return (
     <Stack direction="row" spacing={2} sx={{
         position: 'absolute',
-        top: 80, // über der Navbar (falls Navbar ~56px hoch)
+        top: 80, // über der Navbar 
         left: 16,
         zIndex: 1001, }}
         

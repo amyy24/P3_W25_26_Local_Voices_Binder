@@ -175,7 +175,7 @@ export default function BadgeAvatars({
             ))}
           </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 15, width: '100%' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1, width: '100%' }}>
             <Button
               variant="contained"
               sx={{

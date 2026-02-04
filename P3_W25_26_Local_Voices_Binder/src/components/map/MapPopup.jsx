@@ -40,7 +40,7 @@ export default function MapPopup({
     onClick={onClose}
     sx={{
       position: 'absolute',
-      top: 6,
+      top: 3,
       right: 6,
       color: '#888',
       zIndex: 10,

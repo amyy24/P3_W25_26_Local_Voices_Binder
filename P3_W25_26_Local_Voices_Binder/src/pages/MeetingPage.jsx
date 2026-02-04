@@ -33,7 +33,7 @@ export function MeetingPage() {
       </Typography>
 
       {/* Bild */}
-      <Box sx={{ mt: 5, width: { xs: '90%', sm: '60%', md: '35%' }, display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ mt: 3, width: { xs: '90%', sm: '60%', md: '35%' }, display: 'flex', justifyContent: 'center' }}>
         <img
           src={Meeting}
           alt="Meeting"
@@ -47,7 +47,7 @@ export function MeetingPage() {
       </Box>
 
       {/* Infos */}
-      <Box sx={{ mt: 8, width: { xs: '95%', sm: '60%', md: '35%' } }}>
+      <Box sx={{ mt: 1, width: { xs: '95%', sm: '60%', md: '35%' } }}>
         <MeetingInfoRow icon={<ColorLensIcon />} title="Kunst" />
         <Divider sx={{ mb: 3, borderColor: '#EDEDEB' }} />
         <MeetingInfoRow icon={<AccessTimeIcon />} title="1 km" subtitle="Noch 10 min" />
@@ -66,7 +66,7 @@ export function MeetingPage() {
       </Box>
 
       {/* Action Buttons */}
-      <Box sx={{ mt: 6, width: { xs: '95%', sm: '60%', md: '35%' }, display: 'flex', gap: 2, justifyContent: 'center' }}>
+      <Box sx={{ mt: 3, width: { xs: '95%', sm: '60%', md: '35%' }, display: 'flex', gap: 2, justifyContent: 'center' }}>
   <Button
     variant="contained"
     sx={{

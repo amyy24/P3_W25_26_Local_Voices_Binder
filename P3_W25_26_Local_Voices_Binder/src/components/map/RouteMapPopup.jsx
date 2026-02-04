@@ -8,7 +8,7 @@ export default function IconLabelButtons() {
   return (
     <Stack direction="row" spacing={2} sx={{
         position: 'absolute',
-        bottom: 90, // über der Navbar 
+        bottom: 100, // über der Navbar 
         left: 16,
         zIndex: 1001, }}
         

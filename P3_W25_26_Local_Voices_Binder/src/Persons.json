@@ -3,7 +3,7 @@
       {
         "name": "Emma",
         "type": "local",
-        "categories": ["Kunst", "Kultur"],
+        "categories": ["kunst", "kultur"],
         "lat": 51.5101335,
         "long": -0.1312039,
         "icon": "green"
@@ -11,7 +11,7 @@
       {
         "name": "Liam",
         "type": "reisender",
-        "categories": ["Essen", "Sport"],
+        "categories": ["essen", "sport"],
         "lat": 51.5092118,
         "long": -0.1324673,
         "icon": "orange"

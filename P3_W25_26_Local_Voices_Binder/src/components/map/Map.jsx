@@ -61,13 +61,14 @@ export default function MapView() {
   const [viewFilterState, setViewFilterState] = useState('alle');  // default "alle"
 const [categoryFilterState, setCategoryFilterState] = useState(''); // default leer
 const [open, setOpen] = useState(false); // für FilterDrawer
-
+console.log ('viewFilterState', viewFilterState)
 
 // Debug: zeige bei Änderung, dass die Parent-Setter aufgerufen wurden
 const setViewFilter = (v) => {
   console.log('[Map] parent setViewFilter called with:', v);
-  State(v);
+  setViewFilterState(v);  
 };
+
 const setCategoryFilter = (v) => {
   console.log('[Map] parent setCategoryFilter called with:', v);
   setCategoryFilterState(v);
@@ -81,7 +82,7 @@ const setCategoryFilter = (v) => {
     setShowLiveHelpOnMe(false);
   };
 
-  // Debug: zeigt aktuelle Filterwerte
+  
 console.log('[MapView] viewFilter:', viewFilterState, 'categoryFilter:', categoryFilterState);
 
 const normalize = (s) => (s ? s.toLowerCase().trim() : '');
@@ -108,7 +109,7 @@ const filteredPersons = personsData.persons.filter((person) => {
   if (vf === 'nur locals') return type === 'local';
   if (vf === 'nur reisende') return type === 'reisender';
 
-  // 🌍 alle
+  //  alle
   return true;
 });
 

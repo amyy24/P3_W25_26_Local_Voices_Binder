@@ -48,42 +48,38 @@ function FilterSection({ title, options, selectedOption, onSelect, isCategory = 
 export default function FilterPopupDown({
   open,
   onClose,
+  viewFilter,        //  vom Parent
+  categoryFilter,
   setViewFilter = () => {},
   setCategoryFilter = () => {},
 }) {
-  const [viewOption, setViewOption] = React.useState(''); // lokale Auswahl
-  const [categoryOption, setCategoryOption] = React.useState('');
+  
   const [hasChanged, setHasChanged] = React.useState(false);
 
   // Wenn eine Ansicht ausgewählt wird -> sofort an parent weitergeben (toggle möglich)
   const handleSelectView = (option) => {
-    console.log('[FilterPopupDown] view clicked:', option, 'current viewOption:', viewOption, 'setViewFilter exists:', typeof setViewFilter === 'function');
-    if (viewOption === option) {
-      setViewOption('');
+    console.log('[FilterPopupDown] view clicked:', option);
+    if (viewFilter === option) {
       setViewFilter('alle');
     } else {
-      setViewOption(option);
       setViewFilter(option);
     }
     setHasChanged(true);
   };
   
   const handleSelectCategory = (option) => {
-    console.log('[FilterPopupDown] category clicked:', option, 'current catOption:', categoryOption, 'setCategoryFilter exists:', typeof setCategoryFilter === 'function');
-    if (categoryOption === option) {
-      setCategoryOption('');
+    console.log('[FilterPopupDown] category clicked:', option);
+    if (categoryFilter === option) {
       setCategoryFilter('');
     } else {
-      setCategoryOption(option);
       setCategoryFilter(option);
     }
     setHasChanged(true);
   };
+
   
 
   const handleReset = () => {
-    setViewOption('');
-    setCategoryOption('');
     setHasChanged(false);
     setViewFilter('alle');
     setCategoryFilter('');
@@ -91,8 +87,10 @@ export default function FilterPopupDown({
 
   // Speichern = nur Drawer schließen (Filter sind bereits gesetzt)
   const handleSave = () => {
+    setHasChanged(false);
     onClose?.();
   };
+
 
   return (
     <Drawer
@@ -124,14 +122,14 @@ export default function FilterPopupDown({
       <FilterSection
         title="Ansicht"
         options={['nur reisende', 'nur locals', 'alle']}
-        selectedOption={viewOption}
+        selectedOption={viewFilter}
         onSelect={handleSelectView}
       />
 
       <FilterSection
         title="Themenbereiche"
         options={['Alltag', 'Kunst', 'Kultur', 'Natur', 'Sport', 'Essen']}
-        selectedOption={categoryOption}
+        selectedOption={categoryFilter}
         onSelect={handleSelectCategory}
         isCategory={true}
       />

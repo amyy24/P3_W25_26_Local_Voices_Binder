@@ -9,11 +9,7 @@ export function MapPage() {
 
   return (
     <div>
-      <FilterPopupsmall onClick={() => setFilterOpen(true)}/>
-      <FilterPopupDown
-        open={filterOpen}
-        onClose={() => setFilterOpen(false)}
-      />
+      
       <MapView />
       <SimpleBottomNavigation />
     </div>

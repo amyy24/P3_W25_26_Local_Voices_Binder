@@ -1,6 +1,5 @@
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { useNavigate } from 'react-router-dom';
 import TuneIcon from '@mui/icons-material/Tune';
 
 export default function FilterPopupsmall({ onClick }) {

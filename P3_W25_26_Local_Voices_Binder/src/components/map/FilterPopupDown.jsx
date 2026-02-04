@@ -128,7 +128,7 @@ export default function FilterPopupDown({
 
       <FilterSection
         title="Themenbereiche"
-        options={['Alltag', 'Kunst', 'Kultur', 'Natur', 'Sport', 'Essen']}
+        options={['alltag', 'kunst', 'kultur', 'natur', 'sport', 'essen']}
         selectedOption={categoryFilter}
         onSelect={handleSelectCategory}
         isCategory={true}

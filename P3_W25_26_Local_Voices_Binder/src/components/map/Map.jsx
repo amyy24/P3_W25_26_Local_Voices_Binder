@@ -12,6 +12,9 @@ import place from '../../assets/place.jpg';
 
 import MapPopup from './MapPopup';
 import MapPopupPlace from './MapPopupPlace';
+import FilterPopupsmall from '../../components/map/FilterPopup';
+import FilterPopupCategory from './FilterPopupCategory';
+
 
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import MuseumIcon from '@mui/icons-material/Museum';
@@ -58,22 +61,19 @@ export default function MapView() {
   const [activePopup, setActivePopup] = useState(null);
   const [showAnnouncementOnLocal, setShowAnnouncementOnLocal] = useState(false);
   const [showLiveHelpOnMe, setShowLiveHelpOnMe] = useState(false);
-  const [viewFilterState, setViewFilterState] = useState('alle');  // default "alle"
-const [categoryFilterState, setCategoryFilterState] = useState(''); // default leer
-const [open, setOpen] = useState(false); // für FilterDrawer
-console.log ('viewFilterState', viewFilterState)
+  const [viewFilterState, setViewFilterState] = useState('alle');
+  const [categoryFilterState, setCategoryFilterState] = useState('');
+  const [filterOpen, setFilterOpen] = useState(false);
 
-// Debug: zeige bei Änderung, dass die Parent-Setter aufgerufen wurden
-const setViewFilter = (v) => {
-  console.log('[Map] parent setViewFilter called with:', v);
-  setViewFilterState(v);  
-};
+  const setViewFilter = (v) => {
+    console.log('[Map] parent setViewFilter called with:', v);
+    setViewFilterState(v);  
+  };
 
-const setCategoryFilter = (v) => {
-  console.log('[Map] parent setCategoryFilter called with:', v);
-  setCategoryFilterState(v);
-};
-
+  const setCategoryFilter = (v) => {
+    console.log('[Map] parent setCategoryFilter called with:', v);
+    setCategoryFilterState(v);
+  };
 
   const handleClosePopup = () => {
     setActivePopup(null);
@@ -82,42 +82,67 @@ const setCategoryFilter = (v) => {
     setShowLiveHelpOnMe(false);
   };
 
-  
-console.log('[MapView] viewFilter:', viewFilterState, 'categoryFilter:', categoryFilterState);
+  const normalize = (s) => (s ? s.toLowerCase().trim() : '');
 
-const normalize = (s) => (s ? s.toLowerCase().trim() : '');
+  const vf = normalize(viewFilterState);
+  const cf = normalize(categoryFilterState);
 
-const vf = normalize(viewFilterState);        // z.B. "nur reisende"
-const cf = normalize(categoryFilterState);    // z.B. "kunst"
+  // Kombinierte Filter-Logik für JSON-Personen
+  const filteredPersons = personsData.persons.filter((person) => {
+    const type = normalize(person.type);
+    const categories = (person.categories || []).map(normalize);
 
-const filteredPersons = personsData.persons.filter((person) => {
-  const type = normalize(person.type);
-  const categories = (person.categories || []).map(normalize);
+    // PLACE bleibt IMMER sichtbar
+    if (type === 'place') return true;
 
-  //  PLACE bleibt IMMER sichtbar
-  if (type === 'place') return true;
+    // Alltag & Natur → keine Personen
+    if (cf === 'alltag' || cf === 'natur') return false;
 
-  //  Alltag & Natur → keine Personen
-  if (cf === 'alltag' || cf === 'natur') return false;
+    // 1. Prüfe Ansicht-Filter
+    let matchesView = true;
+    if (vf === 'nur locals') matchesView = (type === 'local');
+    if (vf === 'nur reisende') matchesView = (type === 'reisender');
+    
+    // 2. Prüfe Kategorie-Filter
+    let matchesCategory = true;
+    if (cf) {
+      matchesCategory = categories.includes(cf);
+    }
+    
+    // 3. BEIDE müssen passen
+    return matchesView && matchesCategory;
+  });
 
-  //  Kategorie-Filter (höchste Priorität)
-  if (cf) {
-    return categories.includes(cf);
-  }
+  // Kombinierte Filter-Logik für fest-kodierte Marker
+  const shouldShowPerson = (personType, personCategories) => {
+    const type = normalize(personType);
+    const categories = personCategories.map(normalize);
 
-  //  Ansicht-Filter
-  if (vf === 'nur locals') return type === 'local';
-  if (vf === 'nur reisende') return type === 'reisender';
+    // 1. Prüfe Ansicht-Filter
+    let matchesView = true;
+    if (vf === 'nur locals') matchesView = (type === 'local');
+    if (vf === 'nur reisende') matchesView = (type === 'reisender');
+    
+    // 2. Prüfe Kategorie-Filter
+    let matchesCategory = true;
+    if (cf) {
+      matchesCategory = categories.includes(cf);
+    }
+    
+    // 3. BEIDE müssen passen
+    return matchesView && matchesCategory;
+  };
 
-  //  alle
-  return true;
-});
+  console.log('[MapView] viewFilter:', viewFilterState, 'categoryFilter:', categoryFilterState);
+  console.log('[MapView] filtered persons:', filteredPersons.map(p => ({ name: p.name, type: p.type, categories: p.categories })));
 
-
-
-console.log('[MapView] filtered persons:', filteredPersons.map(p => ({ name: p.name, type: p.type, categories: p.categories })));
-return (
+  return (
     <>
+      <FilterPopupsmall onClick={() => setFilterOpen(true)}/>
+      <FilterPopupCategory 
+  viewFilter={viewFilterState} 
+  categoryFilter={categoryFilterState} 
+/>
       <MapContainer
         center={[51.508, -0.13]}
         zoom={16}
@@ -134,49 +159,48 @@ return (
           attribution="&copy; OpenStreetMap contributors"
         />
 
-<FilterPopupDown
-  open={open}
-  onClose={() => setOpen(false)}
-  viewFilter={viewFilterState}
-  categoryFilter={categoryFilterState}
-  setViewFilter={setViewFilter}
-  setCategoryFilter={setCategoryFilter}
-/>
+        <FilterPopupDown
+          open={filterOpen}
+          onClose={() => setFilterOpen(false)}
+          viewFilter={viewFilterState}
+          categoryFilter={categoryFilterState}
+          setViewFilter={setViewFilter}
+          setCategoryFilter={setCategoryFilter}
+        />
 
+        {/* JSON-Personen */}
+        {filteredPersons.map((person) => {
+          let icon;
+          if (person.icon === 'green') icon = greenIcon;
+          if (person.icon === 'orange') icon = orangeIcon;
+          if (person.icon === 'black') icon = blackIcon;
 
-    {filteredPersons.map((person) => {
-        let icon;
-        if (person.icon === 'green') icon = greenIcon;
-        if (person.icon === 'orange') icon = orangeIcon;
-        if (person.icon === 'black') icon = blackIcon;
+          return (
+            <Marker
+              key={person.name}
+              position={[person.lat, person.long]}
+              icon={icon}
+              eventHandlers={{
+                click: () => {
+                  setActiveMarker(person.name);
+                  setActivePopup({
+                    title: person.name,
+                    subtitle: person.type,
+                    image:
+                      person.type === 'local'
+                        ? local
+                        : person.type === 'reisender'
+                        ? reisender
+                        : place,
+                    onClose: () => setActivePopup(null),
+                  });
+                },
+              }}
+            />
+          );
+        })}
 
-    return (
-      <Marker
-        key={person.name}
-        position={[person.lat, person.long]}
-        icon={icon}
-        eventHandlers={{
-          click: () => {
-            setActiveMarker(person.name);
-            setActivePopup({
-              title: person.name,
-              subtitle: person.type,
-              image:
-                person.type === 'local'
-                  ? local
-                  : person.type === 'reisender'
-                  ? reisender
-                  : place,
-              onClose: () => setActivePopup(null),
-            });
-          },
-        }}
-      />
-    );
-  })}
-
-
-        {/* PLACE */}
+        {/* PLACE - bleibt immer sichtbar */}
         <Marker
           position={[51.50894, -0.128299]}
           icon={activeMarker === 'place' ? blackIconBig : blackIcon}
@@ -195,34 +219,36 @@ return (
           }}
         />
 
-        {/* LOCAL */}
-        <Marker
-          position={[51.5101335, -0.1312039]}
-          icon={activeMarker === 'local' ? greenIconBig : greenIcon}
-          eventHandlers={{
-            click: () => {
-              setActiveMarker('local');
-              setShowAnnouncementOnLocal(false);
-              setActivePopup({
-                type: 'local',
-                title: 'Emma',
-                subtitle: 'Local',
-                subtitleColor: '#51853C',
-                image: local,
-                leftIcons: [
-                  { icon: <ColorLensIcon fontSize="small" />, label: 'Kunst' },
-                  { icon: <MuseumIcon fontSize="small" />, label: 'Kultur' },
-                ],
-                bottomIcons: [
-                  { icon: <LocationPinIcon fontSize="small" />, label: '1 km' },
-                ],
-                buttonIcon: <ArrowForwardIosIcon />,
-                buttonLink: '/profilelocal',
-                onClose: handleClosePopup
-              });
-            },
-          }}
-        />
+        {/* LOCAL - Emma */}
+        {shouldShowPerson('local', ['kunst', 'kultur']) && (
+          <Marker
+            position={[51.5101335, -0.1312039]}
+            icon={activeMarker === 'local' ? greenIconBig : greenIcon}
+            eventHandlers={{
+              click: () => {
+                setActiveMarker('local');
+                setShowAnnouncementOnLocal(false);
+                setActivePopup({
+                  type: 'local',
+                  title: 'Emma',
+                  subtitle: 'Local',
+                  subtitleColor: '#51853C',
+                  image: local,
+                  leftIcons: [
+                    { icon: <ColorLensIcon fontSize="small" />, label: 'Kunst' },
+                    { icon: <MuseumIcon fontSize="small" />, label: 'Kultur' },
+                  ],
+                  bottomIcons: [
+                    { icon: <LocationPinIcon fontSize="small" />, label: '1 km' },
+                  ],
+                  buttonIcon: <ArrowForwardIosIcon />,
+                  buttonLink: '/profilelocal',
+                  onClose: handleClosePopup
+                });
+              },
+            }}
+          />
+        )}
 
         {showAnnouncementOnLocal && (
           <Marker
@@ -233,33 +259,35 @@ return (
           />
         )}
 
-        {/* REISENDER */}
-        <Marker
-          position={[51.5092118, -0.1324673]}
-          icon={activeMarker === 'reisender' ? orangeIconBig : orangeIcon}
-          eventHandlers={{
-            click: () => {
-              setActiveMarker('reisender');
-              setActivePopup({
-                type: 'reisender',
-                title: 'Liam',
-                subtitle: 'Reisender',
-                subtitleColor: '#F05323',
-                image: reisender,
-                leftIcons: [
-                  { icon: <RestaurantIcon fontSize="small" />, label: 'Essen' },
-                  { icon: <SportsBasketballIcon fontSize="small" />, label: 'Sport' },
-                ],
-                bottomIcons: [
-                  { icon: <LocationPinIcon fontSize="small" />, label: '1 km' },
-                ],
-                buttonIcon: <ArrowForwardIosIcon />,
-                buttonLink: '/profile',
-                onClose: handleClosePopup
-              });
-            },
-          }}
-        />
+        {/* REISENDER - Liam */}
+        {shouldShowPerson('reisender', ['essen', 'sport']) && (
+          <Marker
+            position={[51.5092118, -0.1324673]}
+            icon={activeMarker === 'reisender' ? orangeIconBig : orangeIcon}
+            eventHandlers={{
+              click: () => {
+                setActiveMarker('reisender');
+                setActivePopup({
+                  type: 'reisender',
+                  title: 'Liam',
+                  subtitle: 'Reisender',
+                  subtitleColor: '#F05323',
+                  image: reisender,
+                  leftIcons: [
+                    { icon: <RestaurantIcon fontSize="small" />, label: 'Essen' },
+                    { icon: <SportsBasketballIcon fontSize="small" />, label: 'Sport' },
+                  ],
+                  bottomIcons: [
+                    { icon: <LocationPinIcon fontSize="small" />, label: '1 km' },
+                  ],
+                  buttonIcon: <ArrowForwardIosIcon />,
+                  buttonLink: '/profile',
+                  onClose: handleClosePopup
+                });
+              },
+            }}
+          />
+        )}
 
         {/* ME */}
         <Marker position={[51.5072579, -0.1309334]} icon={blueIcon} />
@@ -271,7 +299,6 @@ return (
           />
         )}
       </MapContainer>
-      
 
       {activePopup && (
         <div

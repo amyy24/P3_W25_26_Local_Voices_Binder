@@ -96,7 +96,7 @@ function WalkIconMarker({ position }) {
         height: 54,
         transform: 'translate(-17px, -17px)',
       }}>
-        <DirectionsWalkIcon style={{ fontSize: 68, color: '#F000000' }} />
+        <DirectionsWalkIcon style={{ fontSize: 45, color: '#F000000' }} />
       </div>
     );
 
@@ -131,7 +131,7 @@ function ArrowIconMarker({ position, rotation = -26 }) {
         height: 54,
         transform: `translate(-11px, -9px) rotate(${rotation}deg)`,
       }}>
-        <ArrowDownwardIcon style={{ fontSize: 65, color: '#F000000' }} />
+        <ArrowDownwardIcon style={{ fontSize: 45, color: '#F000000' }} />
       </div>
     );
 

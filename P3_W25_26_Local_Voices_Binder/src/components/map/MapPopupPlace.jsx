@@ -54,8 +54,8 @@ export default function MapPopupPlace({
       {image && (
         <CardMedia
           component="img"
-          sx={{ width: '33.33%', objectFit: 'cover',  borderTopLeftRadius: 5,
-            borderBottomLeftRadius: 5 }}
+          sx={{ width: '33.33%', objectFit: 'cover',  borderTopLeftRadius: 15,
+            borderBottomLeftRadius: 15 }}
           image={image}
           alt={title}
         />

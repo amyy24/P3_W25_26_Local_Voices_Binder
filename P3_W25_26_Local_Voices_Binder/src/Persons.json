@@ -9,6 +9,14 @@
         "icon": "green"
       },
       {
+        "name": "Ethan",
+        "type": "local",
+        "categories": ["kunst", "kultur"],
+        "lat": 51.5102288,
+        "long": -0.1321042,
+        "icon": "green2"
+      },
+      {
         "name": "Liam",
         "type": "reisender",
         "categories": ["essen", "sport"],

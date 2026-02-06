@@ -3,12 +3,14 @@ import L from 'leaflet';
 import { useState } from 'react';
 
 import LocalPin from '../../assets/LocalPin.png';
+import LocalPin2 from '../../assets/LocalPin2.png';
 import MePin from '../../assets/MePin.png';
 import PlacePin from '../../assets/PlacePin.png';
 import ReisenderPin from '../../assets/ReisenderPin.png';
 import local from '../../assets/local.jpg';
 import reisender from '../../assets/reisender.jpg';
 import place from '../../assets/place.jpg';
+import local2 from '../../assets/local2.jpg';
 
 import MapPopup from './MapPopup';
 import MapPopupPlace from './MapPopupPlace';
@@ -31,6 +33,9 @@ import FilterPopupDown from '../../components/map/FilterPopupDown';
 
 const greenIcon = new L.Icon({ iconUrl: LocalPin, iconSize: [57,70], iconAnchor:[57/2, 70] });
 const greenIconBig = new L.Icon({ iconUrl: LocalPin, iconSize: [77,90], iconAnchor:[77/2, 90]  });
+
+const greenIcon2 = new L.Icon({ iconUrl: LocalPin2, iconSize: [57,70], iconAnchor:[57/2, 70] });
+const greenIconBig2 = new L.Icon({ iconUrl: LocalPin2, iconSize: [77,90], iconAnchor:[77/2, 90]  });
 
 const orangeIcon = new L.Icon({ iconUrl: ReisenderPin, iconSize: [57,70], iconAnchor:[57/2, 70] });
 const orangeIconBig = new L.Icon({ iconUrl: ReisenderPin, iconSize: [77,90], iconAnchor:[77/2, 90]  });
@@ -172,6 +177,7 @@ export default function MapView() {
         {filteredPersons.map((person) => {
           let icon;
           if (person.icon === 'green') icon = greenIcon;
+          if (person.icon === 'green2') icon = greenIcon2;
           if (person.icon === 'orange') icon = orangeIcon;
           if (person.icon === 'black') icon = blackIcon;
 
@@ -223,10 +229,10 @@ export default function MapView() {
         {shouldShowPerson('local', ['kunst', 'kultur']) && (
           <Marker
             position={[51.5101335, -0.1312039]}
-            icon={activeMarker === 'local' ? greenIconBig : greenIcon}
+            icon={activeMarker === 'local-emma' ? greenIconBig : greenIcon}
             eventHandlers={{
               click: () => {
-                setActiveMarker('local');
+                setActiveMarker('local-emma');
                 setShowAnnouncementOnLocal(false);
                 setActivePopup({
                   type: 'local',
@@ -243,6 +249,36 @@ export default function MapView() {
                   ],
                   buttonIcon: <ArrowForwardIosIcon />,
                   buttonLink: '/profilelocal',
+                  onClose: handleClosePopup
+                });
+              },
+            }}
+          />
+        )}
+{/* LOCAL - Ethan */}
+{shouldShowPerson('local', ['kunst', 'kultur']) && (
+          <Marker
+            position={[51.5102288, -0.1321042]}
+            icon={activeMarker === 'local-ethan' ? greenIconBig2 : greenIcon2}
+            eventHandlers={{
+              click: () => {
+                setActiveMarker('local-ethan');
+                setShowAnnouncementOnLocal(false);
+                setActivePopup({
+                  type: 'local-ethan',
+                  title: 'Ethan',
+                  subtitle: 'Local',
+                  subtitleColor: '#51853C',
+                  image: local2,
+                  leftIcons: [
+                    { icon: <ColorLensIcon fontSize="small" />, label: 'Kunst' },
+                    { icon: <MuseumIcon fontSize="small" />, label: 'Kultur' },
+                  ],
+                  bottomIcons: [
+                    { icon: <LocationPinIcon fontSize="small" />, label: '1 km' },
+                  ],
+                  buttonIcon: <ArrowForwardIosIcon />,
+                  buttonLink: '/profilelocal2',
                   onClose: handleClosePopup
                 });
               },

@@ -9,21 +9,29 @@ import { useEffect } from 'react';
 import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { renderToStaticMarkup } from 'react-dom/server';
+import LocalPin2 from '../../assets/LocalPin2.png';
 
 // Marker Icons
 const greenIcon = new L.Icon({ iconUrl: LocalPin, iconSize: [57,70], iconAnchor:[20,40] });
+const greenIcon2 = new L.Icon({ iconUrl: LocalPin2, iconSize: [57,70], iconAnchor:[20,40] });
 const blueIcon = new L.Icon({ iconUrl: MePin, iconSize: [57,90], iconAnchor:[20,40] });
 const blackIcon = new L.Icon({ iconUrl: PlacePin, iconSize: [57,70], iconAnchor:[20,40] });
 const orangeIcon = new L.Icon({ iconUrl: ReisenderPin, iconSize: [57,70], iconAnchor:[20,40] });
 
-function RouteMap() {
-  const mePos = [51.5072579, -0.1309334]; // MePin
-  const localPos = [51.5101335, -0.1312039]; // LocalPin
-  const travelerPos = [51.5092118, -0.1324673]; // ReisenderPin
-  const placePos = [51.50894, -0.128299]; // PlacePin
+function RouteMap({ routes = [{ start: [51.5072579, -0.1309334], end: [51.5101335, -0.1312039] }] }) {
+  const mePos = [51.5072579, -0.1309334];
+  const localPos = [51.5101335, -0.1312039];
+  const localPos2 = [51.5102288, -0.1321042];
+  const travelerPos = [51.5092118, -0.1324673];
+  const placePos = [51.50894, -0.128299];
+
+  // Berechne Center basierend auf allen Routen
+  const allPoints = routes.flatMap(r => [r.start, r.end]);
+  const centerLat = allPoints.reduce((sum, p) => sum + p[0], 0) / allPoints.length;
+  const centerLng = allPoints.reduce((sum, p) => sum + p[1], 0) / allPoints.length;
 
   return (
-    <MapContainer center={mePos} zoom={16} style={{ height: '100vh', width: '100vw' }}>
+    <MapContainer center={[centerLat, centerLng]} zoom={16} style={{ height: '100vh', width: '100vw' }}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="&copy; OpenStreetMap contributors"
@@ -32,22 +40,47 @@ function RouteMap() {
       {/* Marker */}
       <Marker position={mePos} icon={blueIcon} />
       <Marker position={localPos} icon={greenIcon} />
+      <Marker position={localPos2} icon={greenIcon2} />
       <Marker position={travelerPos} icon={orangeIcon} />
-      <Marker position={placePos} icon={blackIcon} /> 
+      <Marker position={placePos} icon={blackIcon} />
 
-      {/* MUI Icon neben MePin */}
-      <WalkIconMarker position={[51.5074200, -0.1306000]} />
-
-      {/* Arrow Icon am Ziel */}
-      <ArrowIconMarker position={[51.5102735, -0.1313500]}  />
-
-      {/* Route */}
-      <Routing start={mePos} end={localPos} />
+      {/* Icons und Routen für jede Route */}
+      {routes.map((route, index) => (
+        <RouteWithIcons key={index} route={route} />
+      ))}
     </MapContainer>
   );
 }
 
-// Walk Icon Marker (Startpunkt)
+
+
+// Neue Komponente für Route + Icons
+function RouteWithIcons({ route }) {
+  // Default Offsets falls nicht angegeben
+  const walkOffset = route.walkOffset || { lat: 0.0002, lng: 0.0003 };
+  const arrowOffset = route.arrowOffset || { lat: 0.00027, lng: 0.00015 };
+  const arrowRotation = route.arrowRotation || -26;
+
+  return (
+    <>
+      {/* Walk Icon am Start */}
+      <WalkIconMarker 
+        position={[route.start[0] + walkOffset.lat, route.start[1] + walkOffset.lng]} 
+      />
+      
+      {/* Arrow Icon am Ziel */}
+      <ArrowIconMarker 
+        position={[route.end[0] + arrowOffset.lat, route.end[1] + arrowOffset.lng]}
+        rotation={arrowRotation}
+      />
+      
+      {/* Route */}
+      <Routing start={route.start} end={route.end} />
+    </>
+  );
+}
+
+// Walk Icon Marker bleibt gleich
 function WalkIconMarker({ position }) {
   const map = useMap();
 
@@ -82,8 +115,8 @@ function WalkIconMarker({ position }) {
   return null;
 }
 
-// Arrow Icon Marker (Zielpunkt)
-function ArrowIconMarker({ position }) {
+// Arrow Icon Marker mit Rotation Parameter
+function ArrowIconMarker({ position, rotation = -26 }) {
   const map = useMap();
 
   useEffect(() => {
@@ -96,7 +129,7 @@ function ArrowIconMarker({ position }) {
         justifyContent: 'center',
         width: 54,
         height: 54,
-        transform: 'translate(-11px, -9px)rotate(-26deg)',
+        transform: `translate(-11px, -9px) rotate(${rotation}deg)`,
       }}>
         <ArrowDownwardIcon style={{ fontSize: 65, color: '#F000000' }} />
       </div>
@@ -112,22 +145,25 @@ function ArrowIconMarker({ position }) {
     const marker = L.marker(position, { icon: muiDivIcon }).addTo(map);
 
     return () => map.removeLayer(marker);
-  }, [map, position]);
+  }, [map, position, rotation]);
 
   return null;
 }
 
-// Routing Component bleibt unverändert
+// Routing anpassen für mehrere Routen
 function Routing({ start, end }) {
   const map = useMap();
 
   useEffect(() => {
     if (!map) return;
 
+    // Eindeutigen Key für diese Route erstellen
+    const routeKey = `route_${start.join(',')}_${end.join(',')}`;
+
     const removeOld = () => {
-      if (map._routeLayer) {
-        map.removeLayer(map._routeLayer);
-        map._routeLayer = null;
+      if (map[routeKey]) {
+        map.removeLayer(map[routeKey]);
+        map[routeKey] = null;
       }
     };
     removeOld();
@@ -146,11 +182,15 @@ function Routing({ start, end }) {
           style: { color: 'black', weight: 4 },
         }).addTo(map);
 
-        map._routeLayer = layer;
+        map[routeKey] = layer;
 
-        const bounds = layer.getBounds();
-        if (bounds && !bounds.isEmpty()) {
-          map.fitBounds(bounds.pad(0.2));
+        // Nur beim ersten Render den Zoom anpassen
+        if (!map._hasSetBounds) {
+          const bounds = layer.getBounds();
+          if (bounds && !bounds.isEmpty()) {
+            map.fitBounds(bounds.pad(0.2));
+            map._hasSetBounds = true;
+          }
         }
       })
       .catch(err => console.error(err));

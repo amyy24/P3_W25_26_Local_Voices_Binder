@@ -3,7 +3,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Stack from '@mui/material/Stack';
 import { useNavigate } from 'react-router-dom';
 
-export default function IconLabelButtons() {
+export default function IconLabelButtons({ meetingRoute = "/meeting" }) {  
     const navigate = useNavigate();
   return (
     <Stack direction="row" spacing={2} sx={{
@@ -20,7 +20,8 @@ export default function IconLabelButtons() {
         borderRadius: 25,
         textTransform: 'none',
         fontWeight:700 }}
-        onClick={() => navigate('/meeting')}>
+        onClick={() => navigate(meetingRoute)}
+        >
         you're meeting
       </Button>
     </Stack>

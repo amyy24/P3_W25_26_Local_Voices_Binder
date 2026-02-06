@@ -35,6 +35,8 @@ export default function BadgeAvatars({
   subtitle,
   subtitleColor,
   infos,
+  meetingRoute,
+  buttonColor = '#F05323',
   
 }) {
   const navigate = useNavigate();
@@ -178,8 +180,9 @@ export default function BadgeAvatars({
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1, width: '100%' }}>
             <Button
               variant="contained"
+              disabled={!meetingRoute}
               sx={{
-                backgroundColor: '#F05323',
+                backgroundColor: buttonColor,
                 color: '#FFFFFF',
                 borderRadius: 2,
                 px: { xs: 5, sm: 4 },
@@ -197,13 +200,17 @@ export default function BadgeAvatars({
           </Box>
         </Box>
 
-        <ConfirmRedirect
-          open={confirmOpen}
-          onClose={() => setConfirmOpen(false)}
-          to="/meeting"
-          duration={3000}
-        />
+        {meetingRoute && (  // NEU: ConfirmRedirect nur rendern wenn Route existiert
+          <ConfirmRedirect
+            open={confirmOpen}
+            onClose={() => setConfirmOpen(false)}
+            to={meetingRoute}
+            duration={3000}
+          />
+        )}
       </Box>
+      
+      
     </>
   );
 }

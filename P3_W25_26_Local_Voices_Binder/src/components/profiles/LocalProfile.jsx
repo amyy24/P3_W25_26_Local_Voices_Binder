@@ -190,7 +190,6 @@ export default function BadgeAvatars({
                 textTransform: 'none',
                 fontWeight: 600,
                 fontSize: { xs: '1.05rem', sm: '1rem' }, // größer auf Mobile
-                width: { xs: '100%', sm: 'auto' },
                 maxWidth: 360,
               }}
               onClick={handleMeetClick}

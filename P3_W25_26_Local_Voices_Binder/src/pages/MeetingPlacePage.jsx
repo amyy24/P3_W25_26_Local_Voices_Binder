@@ -78,7 +78,7 @@ export function MeetingPlacePage() {
       textTransform: 'none',
       fontWeight: 500,
       fontSize: { xs: '1.05rem', sm: '1rem' },
-      width: { xs: '100%', sm: 'auto' },
+      
       maxWidth: 360,
     }}
     onClick={() => navigate('/map')}

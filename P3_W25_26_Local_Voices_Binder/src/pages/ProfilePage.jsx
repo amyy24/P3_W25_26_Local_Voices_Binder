@@ -26,7 +26,8 @@ export function ProfilePage() {
           badgeImage={Verification}
           title="Liam"
           subtitle="Reisender"
-          buttonColor="#9E9E9E"
+          subtitleColor="#F05323"
+          buttonColor="#EDEDEB"
           infos={[
             { title: "Lebe in", subtitle: "Madrid, Spanien", right: { icon: <LocationPinIcon />, label: "1km" } },
             { title: "Spreche", subtitle: "Englisch, Spanisch" },

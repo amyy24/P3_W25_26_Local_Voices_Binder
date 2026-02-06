@@ -288,7 +288,7 @@ export default function MapView() {
 
         {showAnnouncementOnLocal && (
           <Marker
-            position={[51.5104535, -0.1312939]}
+            position={[51.5103426, -0.13215]}
             icon={announcementIcon}
             interactive={false}
             zIndexOffset={1000} 

@@ -15,7 +15,7 @@ export function ProfilePage() {
         display: 'flex',
         justifyContent: 'center',
         minHeight: '100vh',                 // 100% der Viewport-Höhe
-        alignItems: 'flex-start',           // wir starten oben, aber verschieben mit mt
+        alignItems: 'flex-start',           
         pt: { xs: '30vh', sm: '10vh' },     // Abstand nach oben: auf iPhone mehr Abstand
         boxSizing: 'border-box',
       }}

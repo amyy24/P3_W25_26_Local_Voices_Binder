@@ -2,9 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import 'leaflet/dist/leaflet.css';
 
-
-
-
 import {StartPage} from "./pages/StartPage";
 import {MapPage} from "./pages/MapPage";
 import {RouteMapPage} from "./pages/RouteMapPage";

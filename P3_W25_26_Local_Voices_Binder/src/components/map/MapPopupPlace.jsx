@@ -63,7 +63,7 @@ export default function MapPopupPlace({
 
       {/* Überschrift + Text */}
       <Box sx={{ display: 'flex', flexDirection: 'column', width: '66.66%', p: 1 }}>
-  {/* Text oben */}
+  
   <Box>
     <Typography component="div" variant="h5" sx={{ fontWeight: 700 }}>
       {title}

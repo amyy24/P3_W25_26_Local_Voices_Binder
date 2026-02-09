@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
-// Wiederverwendbarer Unterabschnitt
+// Filter Auswahl
 function FilterSection({ title, options, selectedOption, onSelect, isCategory = false }) {
   return (
     <Box sx={{ mb: 3 }}>
@@ -48,44 +48,45 @@ function FilterSection({ title, options, selectedOption, onSelect, isCategory = 
 export default function FilterPopupDown({
   open,
   onClose,
-  viewFilter,        //  vom Parent
-  categoryFilter,
+  viewFilter,        //  Ansicht Personen
+  categoryFilter,     //  Kategorie
   setViewFilter = () => {},
   setCategoryFilter = () => {},
 }) {
   
   const [hasChanged, setHasChanged] = React.useState(false);
 
-  // Wenn eine Ansicht ausgewählt wird -> sofort an parent weitergeben (toggle möglich)
+  // Auswahl der Pesonen
   const handleSelectView = (option) => {
     console.log('[FilterPopupDown] view clicked:', option);
     if (viewFilter === option) {
-      setViewFilter('alle');
+      setViewFilter('alle'); // von anfang an auf alle
     } else {
-      setViewFilter(option);
+      setViewFilter(option); // wenn man auf eine andere ansicht klickt
     }
     setHasChanged(true);
   };
   
+  // Auswahl der Kategorie
   const handleSelectCategory = (option) => {
     console.log('[FilterPopupDown] category clicked:', option);
     if (categoryFilter === option) {
-      setCategoryFilter('');
+      setCategoryFilter(''); // von anfang an leer
     } else {
-      setCategoryFilter(option);
+      setCategoryFilter(option); // Auswahl einer neuen Kategorie
     }
     setHasChanged(true);
   };
 
   
-
+// Zurücksetzen
   const handleReset = () => {
     setHasChanged(false);
     setViewFilter('alle');
     setCategoryFilter('');
   };
 
-  // Speichern = nur Drawer schließen (Filter sind bereits gesetzt)
+  // Speichern 
   const handleSave = () => {
     setHasChanged(false);
     onClose?.();

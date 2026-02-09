@@ -1,6 +1,7 @@
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-
+ 
+// aktiven Filter auf der Karte anzeigen als kleiner Button
 export default function FilterPopupCategory({ viewFilter, categoryFilter }) {
   
   // Wenn beide leer/alle sind, zeige nichts
@@ -19,7 +20,7 @@ export default function FilterPopupCategory({ viewFilter, categoryFilter }) {
         zIndex: 1001,
       }}
     >
-      {viewFilter !== "alle" && (
+      {viewFilter !== "alle" && ( // Zeigt Auswahl der Personen
         <Box sx={{
           backgroundColor: '#EDEDEB',
           color: '#000000',
@@ -32,7 +33,7 @@ export default function FilterPopupCategory({ viewFilter, categoryFilter }) {
         </Box>
       )}
       
-      {categoryFilter && (
+      {categoryFilter && ( // Zeigt Auswahl der Kategorie
         <Box sx={{
           backgroundColor: '#EDEDEB',
           color: '#000000',

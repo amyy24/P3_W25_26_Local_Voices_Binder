@@ -199,7 +199,7 @@ export default function BadgeAvatars({
           </Box>
         </Box>
 
-        {meetingRoute && (  // NEU: ConfirmRedirect nur rendern wenn Route existiert
+        {meetingRoute && (  // ConfirmRedirect nur rendern wenn Route existiert
           <ConfirmRedirect
             open={confirmOpen}
             onClose={() => setConfirmOpen(false)}

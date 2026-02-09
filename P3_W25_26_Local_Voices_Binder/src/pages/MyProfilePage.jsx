@@ -13,8 +13,8 @@ import MuseumIcon from '@mui/icons-material/Museum';
 import SimpleBottomNavigation from '../components/layout/NavBar';
 
 const SmallAvatar = styled(Avatar)(({ theme }) => ({
-  width: 22,
-  height: 22,
+  width: 32,
+  height: 32,
   border: `2px solid ${theme.palette.background.paper}`,
 }));
 

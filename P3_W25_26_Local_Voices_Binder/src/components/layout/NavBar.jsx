@@ -41,8 +41,8 @@ export default function SimpleBottomNavigation() {
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
-          if (newValue === 0) navigate('/map');       // Navigation Icon
-          else if (newValue === 1) navigate('/map');    // Explorer Icon
+          if (newValue === 0) navigate('/map');       // Navigation 
+          else if (newValue === 1) navigate('/map');    
           else if (newValue === 2) navigate('/myprofile');
         }}
         sx={{
@@ -51,10 +51,10 @@ export default function SimpleBottomNavigation() {
           alignItems: 'center',
           backgroundColor: '#EDEDEB',
           '& .MuiBottomNavigationAction-root.Mui-selected': {
-            color: '#F05323', // aktives Icon + Label
+            color: '#F05323', // aktives Icon orange
           },
           '& .MuiBottomNavigationAction-root': {
-            color: '#000000', // inaktive Farbe optional schwarz
+            color: '#000000', // inaktive Icon schwarz
           },
         }}
       >
@@ -83,24 +83,24 @@ export default function SimpleBottomNavigation() {
         outline: 'none',
         boxShadow: 'none',
         },
-        minHeight: '100%',           // nimmt volle Navbar-Höhe
+        minHeight: '100%',           
           display: 'flex',
-          alignItems: 'center',        // Icon vertikal mittig
+          alignItems: 'center',       
           justifyContent: 'center',
         }}/>
         
         <BottomNavigationAction  icon={<PersonIcon sx={{ fontSize: 30 }}  />} disableRipple sx={{
         '&.Mui-selected': {
-        outline: 'none',  // entfernt Fokus-Outline
+        outline: 'none',  
         boxShadow: 'none',
         },
         '&:focus': {
         outline: 'none',
         boxShadow: 'none',
         },
-        minHeight: '100%',           // nimmt volle Navbar-Höhe
+        minHeight: '100%',          
           display: 'flex',
-          alignItems: 'center',        // Icon vertikal mittig
+          alignItems: 'center',       
           justifyContent: 'center',
         }}/>
       </BottomNavigation>

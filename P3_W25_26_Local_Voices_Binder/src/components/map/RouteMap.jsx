@@ -54,9 +54,8 @@ function RouteMap({ routes = [{ start: [51.5072579, -0.1309334], end: [51.510133
 
 
 
-// Neue Komponente für Route + Icons
+
 function RouteWithIcons({ route }) {
-  // Default Offsets falls nicht angegeben
   const walkOffset = route.walkOffset || { lat: 0.0002, lng: 0.0003 };
   const arrowOffset = route.arrowOffset || { lat: 0.00027, lng: 0.00015 };
   const arrowRotation = route.arrowRotation || -26;

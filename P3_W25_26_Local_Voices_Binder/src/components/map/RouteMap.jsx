@@ -95,7 +95,7 @@ function WalkIconMarker({ position }) {
         height: 54,
         transform: 'translate(-17px, -17px)',
       }}>
-        <DirectionsWalkIcon style={{ fontSize: 45, color: '#F000000' }} />
+        <DirectionsWalkIcon style={{ fontSize: 45, color: '#000000' }} />
       </div>
     );
 
@@ -186,7 +186,7 @@ function Routing({ start, end }) {
         // Nur beim ersten Render den Zoom anpassen
         if (!map._hasSetBounds) {
           const bounds = layer.getBounds();
-          if (bounds && !bounds.isEmpty()) {
+          if (bounds && !bounds.isValid()) {
             map.fitBounds(bounds.pad(0.2));
             map._hasSetBounds = true;
           }
